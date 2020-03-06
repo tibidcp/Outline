@@ -19,4 +19,9 @@
         android:name="com.tibi.geodesy.ui.SurveyFragment"
         android:label="SurveyFragment"
         tools:layout="@layout/fragment_survey"/>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.tibi.geodesy.ui.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"/>
 </navigation>
