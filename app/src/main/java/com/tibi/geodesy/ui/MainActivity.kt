@@ -1,7 +1,8 @@
-package com.tibi.geodesy
+package com.tibi.geodesy.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.tibi.geodesy.R
 
 class MainActivity : AppCompatActivity() {
 
