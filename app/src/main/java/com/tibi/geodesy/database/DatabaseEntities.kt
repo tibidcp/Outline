@@ -4,34 +4,34 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity
-data class Projects constructor(
+@Entity()
+data class Project constructor(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0L,
     val name: String,
     val instrument: String
 )
 
 @Entity
-data class Measurements constructor(
+data class Measurement constructor(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0L,
     val va: Double,
     val ha: Double,
     val sd: Double,
     val ht: Double,
-    @ForeignKey(entity = Projects::class, parentColumns = ["id"], childColumns = ["projectId"])
+    @ForeignKey(entity = Project::class, parentColumns = ["id"], childColumns = ["projectId"])
     val projectId: Long,
-    @ForeignKey(entity = Stations::class, parentColumns = ["id"], childColumns = ["StationId"])
+    @ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["StationId"])
     val StationId: Long,
-    @ForeignKey(entity = Stations::class, parentColumns = ["id"], childColumns = ["backsightId"])
+    @ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["backsightId"])
     val backsightId: Long
 )
 
 @Entity
-data class Stations constructor(
+data class Station constructor(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0L,
     val name: String,
     val hi: Double,
     val x: Double,
@@ -40,10 +40,10 @@ data class Stations constructor(
 )
 
 @Entity
-data class Coordinates constructor(
+data class Coordinate constructor(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
-    @ForeignKey(entity = Measurements::class, parentColumns = ["id"], childColumns = ["measurementId"])
+    val id: Long = 0L,
+    @ForeignKey(entity = Measurement::class, parentColumns = ["id"], childColumns = ["measurementId"])
     val measurementId: Long,
     val x: Double,
     val y: Double,
@@ -51,32 +51,32 @@ data class Coordinates constructor(
 )
 
 @Entity
-data class PointObjects constructor(
+data class PointObject constructor(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
-    @ForeignKey(entity = Coordinates::class, parentColumns = ["id"], childColumns = ["coordinateId"])
+    val id: Long = 0L,
+    @ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])
     val coordinateId: Long,
     val angle: Double,
     val textAttribute: String,
-    @ForeignKey(entity = AllObjects::class, parentColumns = ["id"], childColumns = ["objectId"])
+    @ForeignKey(entity = DrawObject::class, parentColumns = ["id"], childColumns = ["objectId"])
     val objectId: Long
 )
 
 @Entity
-data class LinearObjects constructor(
+data class LinearObject constructor(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
-    @ForeignKey(entity = Coordinates::class, parentColumns = ["id"], childColumns = ["coordinateId"])
+    val id: Long = 0L,
+    @ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])
     val coordinateId: Long,
-    @ForeignKey(entity = AllObjects::class, parentColumns = ["id"], childColumns = ["objectId"])
+    @ForeignKey(entity = DrawObject::class, parentColumns = ["id"], childColumns = ["objectId"])
     val objectId: Long,
     val pointIndex: Int
 )
 
 @Entity
-data class AllObjects constructor(
+data class DrawObject constructor(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0L,
     val type: String,
     val color: Int,
     val layer: String,
