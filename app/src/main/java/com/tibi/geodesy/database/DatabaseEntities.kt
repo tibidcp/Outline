@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity()
 data class Project constructor(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    @PrimaryKey
     val name: String,
     val instrument: String
 )
@@ -20,10 +19,10 @@ data class Measurement constructor(
     val ha: Double,
     val sd: Double,
     val ht: Double,
-    @ForeignKey(entity = Project::class, parentColumns = ["id"], childColumns = ["projectId"])
-    val projectId: Long,
+    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
+    val projectName: String,
     @ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["StationId"])
-    val StationId: Long,
+    val stationId: Long,
     @ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["backsightId"])
     val backsightId: Long
 )
@@ -36,7 +35,9 @@ data class Station constructor(
     val hi: Double,
     val x: Double,
     val y: Double,
-    val z: Double
+    val z: Double,
+    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
+    val projectName: String
 )
 
 @Entity
@@ -47,7 +48,9 @@ data class Coordinate constructor(
     val measurementId: Long,
     val x: Double,
     val y: Double,
-    val z: Double
+    val z: Double,
+    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
+    val projectName: String
 )
 
 @Entity
@@ -59,7 +62,9 @@ data class PointObject constructor(
     val angle: Double,
     val textAttribute: String,
     @ForeignKey(entity = DrawObject::class, parentColumns = ["id"], childColumns = ["objectId"])
-    val objectId: Long
+    val objectId: Long,
+    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
+    val projectName: String
 )
 
 @Entity
@@ -70,18 +75,22 @@ data class LinearObject constructor(
     val coordinateId: Long,
     @ForeignKey(entity = DrawObject::class, parentColumns = ["id"], childColumns = ["objectId"])
     val objectId: Long,
-    val pointIndex: Int
+    val pointIndex: Int,
+    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
+    val projectName: String
 )
 
 @Entity
-data class DrawObject constructor(
+    data class DrawObject constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val type: String,
     val color: Int,
     val layer: String,
     val lineType: String,
-    val lineWeight: Double
+    val lineWeight: Double,
+    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
+    val projectName: String
 )
 
 
