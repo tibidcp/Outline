@@ -7,7 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.tibi.geodesy.R
+import com.tibi.geodesy.database.Project
+import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentTitleBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TitleFragment : Fragment() {
 
@@ -17,6 +22,20 @@ class TitleFragment : Fragment() {
             inflater, R.layout.fragment_title, container, false
         )
         setHasOptionsMenu(true)
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        val db = context?.let { getDatabase(it) }
+        val dao = db?.outlineDao
+        val scope = CoroutineScope(Dispatchers.IO)
+        binding.addButton.setOnClickListener {
+            val projectString = binding.projectEditText.text.toString()
+            if (projectString.isNotEmpty()) {
+                scope.launch{
+                    dao?.insertProject(Project(projectString, "Nikon"))
+                }
+            }
+        }
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         val adapter = ProjectListAdapter()
         binding.projectList.adapter = adapter
