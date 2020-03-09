@@ -3,14 +3,21 @@ package com.tibi.geodesy.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.tibi.geodesy.ui.TitleFragment
 
 @Dao
 interface OutlineDao {
+    @Query("select * from project where name = :name")
+    fun getProject(name: String): Project
+
     @Query("select * from project")
-    fun getProjects(): LiveData<List<Project>>
+    fun getAllProjects(): LiveData<List<Project>>
 
     @Insert
-    fun insertProject(project: Project): Long
+    fun insertProject(project: Project)
+    @Update
+    fun updateProject(project: Project)
+
     @Insert
     fun insertMeasurement(measurement: Measurement): Long
     @Insert
