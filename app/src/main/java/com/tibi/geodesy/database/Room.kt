@@ -6,12 +6,27 @@ import androidx.room.*
 
 @Dao
 interface OutlineDao {
-    @Query("select * from projects")
-    fun getProjects(): LiveData<List<Projects>>
+    @Query("select * from project")
+    fun getProjects(): LiveData<List<Project>>
+
+    @Insert
+    fun insertProject(project: Project): Long
+    @Insert
+    fun insertMeasurement(measurement: Measurement): Long
+    @Insert
+    fun insertStation(station: Station): Long
+    @Insert
+    fun insertCoordinate(coordinate: Coordinate): Long
+    @Insert
+    fun insertPointObject(pointObject: PointObject): Long
+    @Insert
+    fun insertLinearObject(linearObject: LinearObject): Long
+    @Insert
+    fun insertDrawObject(drawObject: DrawObject): Long
 }
 
-@Database(entities = [Projects::class, Measurements::class, Stations::class, Coordinates::class,
-    PointObjects::class, LinearObjects::class, AllObjects::class], version = 1)
+@Database(entities = [Project::class, Measurement::class, Station::class, Coordinate::class,
+    PointObject::class, LinearObject::class, DrawObject::class], version = 1, exportSchema = false)
 abstract class OutlineDatabase : RoomDatabase() {
     abstract val outlineDao: OutlineDao
 }
