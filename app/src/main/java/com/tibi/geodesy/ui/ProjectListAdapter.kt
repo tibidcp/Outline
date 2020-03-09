@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tibi.geodesy.R
+import com.tibi.geodesy.database.Project
 
 class ProjectListAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
-    var data = listOf(1, 2, 3)
+    var data = listOf<Project>()
         set(value) {
         field = value
         notifyDataSetChanged()
@@ -25,7 +26,7 @@ class ProjectListAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 
     override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
         val item = data[position]
-        holder.textView.text = item.toString()
+        holder.textView.text = item.name
     }
 
 }
