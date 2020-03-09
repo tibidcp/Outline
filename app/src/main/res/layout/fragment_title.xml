@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.android.navigation.TitleFragment">
 
+    <data>
+        <variable
+            name="titleViewModel"
+            type="com.tibi.geodesy.viewmodels.TitleViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/titleConstraint"
         android:layout_width="match_parent"

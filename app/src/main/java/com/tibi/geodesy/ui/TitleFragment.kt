@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.tibi.geodesy.R
 import com.tibi.geodesy.database.Project
 import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentTitleBinding
+import com.tibi.geodesy.viewmodels.TitleViewModel
+import com.tibi.geodesy.viewmodels.TitleViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +25,15 @@ class TitleFragment : Fragment() {
         val binding: FragmentTitleBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_title, container, false
         )
-        setHasOptionsMenu(true)
+        val application = requireNotNull(this.activity).application
+        val dataSource = getDatabase(application).outlineDao
+        val titleViewModelFactory = TitleViewModelFactory(dataSource, application)
+        val titleViewModel =
+            ViewModelProvider(this, titleViewModelFactory).get(TitleViewModel::class.java)
+        binding.titleViewModel = titleViewModel
+        binding.lifecycleOwner = this
+
+
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         val db = context?.let { getDatabase(it) }
@@ -40,6 +52,7 @@ class TitleFragment : Fragment() {
         val adapter = ProjectListAdapter()
         binding.projectList.adapter = adapter
 
+        setHasOptionsMenu(true)
         return binding.root
     }
 
