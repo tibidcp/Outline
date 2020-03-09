@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.tibi.geodesy.R
@@ -20,7 +19,7 @@ class TitleFragment : Fragment() {
         setHasOptionsMenu(true)
 
         val adapter = ProjectListAdapter()
-        binding.projectsList.adapter = adapter
+        binding.projectList.adapter = adapter
 
         return binding.root
     }
