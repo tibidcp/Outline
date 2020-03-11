@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/titleFragment">
+    app:startDestination="@id/projectFragment">
 
     <fragment
-        android:id="@+id/titleFragment"
-        android:name="com.tibi.geodesy.ui.TitleFragment"
-        android:label="TitleFragment"
-        tools:layout="@layout/fragment_title">
+        android:id="@+id/projectFragment"
+        android:name="com.tibi.geodesy.ui.ProjectFragment"
+        android:label="ProjectFragment"
+        tools:layout="@layout/fragment_project">
         <action
-            android:id="@+id/action_titleFragment_to_surveyFragment"
+            android:id="@+id/action_projectFragment_to_surveyFragment"
             app:destination="@id/surveyFragment" />
     </fragment>
     <fragment

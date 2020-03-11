@@ -2,16 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.android.navigation.TitleFragment">
+    tools:context="com.example.android.navigation.ProjectFragment">
 
     <data>
         <variable
-            name="titleViewModel"
-            type="com.tibi.geodesy.viewmodels.TitleViewModel" />
+            name="projectViewModel"
+            type="com.tibi.geodesy.viewmodels.ProjectViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/titleConstraint"
+        android:id="@+id/projectConstraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

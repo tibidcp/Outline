@@ -3,7 +3,6 @@ package com.tibi.geodesy.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.tibi.geodesy.ui.TitleFragment
 
 @Dao
 interface OutlineDao {

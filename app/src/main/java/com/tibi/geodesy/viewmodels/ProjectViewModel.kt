@@ -10,7 +10,7 @@ import com.tibi.geodesy.database.OutlineDao
 import com.tibi.geodesy.database.Project
 import kotlinx.coroutines.*
 
-class TitleViewModel(
+class ProjectViewModel(
     val database: OutlineDao,
     application: Application
 ) : AndroidViewModel(application) {
