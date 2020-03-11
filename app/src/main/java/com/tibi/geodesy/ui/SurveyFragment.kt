@@ -16,6 +16,9 @@ class SurveyFragment : Fragment() {
         val binding: FragmentSurveyBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_survey, container, false
         )
+        val application = requireNotNull(this.activity).application
+        val arguments = SurveyFragmentArgs.fromBundle(arguments!!)
+        binding.textView.text = arguments.projectName
         return binding.root
     }
 }

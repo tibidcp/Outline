@@ -8,12 +8,12 @@ import com.tibi.geodesy.ui.TitleFragment
 @Dao
 interface OutlineDao {
     @Query("select * from project where name = :name")
-    fun getProject(name: String): Project
+    fun getProject(name: String): Project?
 
     @Query("select * from project")
     fun getAllProjects(): LiveData<List<Project>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertProject(project: Project)
     @Update
     fun updateProject(project: Project)

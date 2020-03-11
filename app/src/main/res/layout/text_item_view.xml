@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:textSize="24sp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="project"
+            type="com.tibi.geodesy.database.Project" />
+        <variable
+            name="clickListener"
+            type="com.tibi.geodesy.ui.ProjectListener" />
+    </data>
+    
+    <TextView
+        android:id="@+id/project_text_view"
+        android:textSize="32sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:projectName="@{project}"
+        android:onClick="@{() -> clickListener.onClick(project)}"/>
+</layout>

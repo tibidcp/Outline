@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Project constructor(
     @PrimaryKey
     val name: String,
-    val instrument: String
+    val instrument: String = "Nikon"
 )
 
 @Entity
