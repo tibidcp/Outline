@@ -27,12 +27,10 @@ interface OutlineDao {
     fun insertPointObject(pointObject: PointObject): Long
     @Insert
     fun insertLinearObject(linearObject: LinearObject): Long
-    @Insert
-    fun insertDrawObject(drawObject: DrawObject): Long
 }
 
 @Database(entities = [Project::class, Measurement::class, Station::class, Coordinate::class,
-    PointObject::class, LinearObject::class, DrawObject::class], version = 1, exportSchema = false)
+    PointObject::class, LinearObject::class], version = 1, exportSchema = false)
 abstract class OutlineDatabase : RoomDatabase() {
     abstract val outlineDao: OutlineDao
 }

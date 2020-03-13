@@ -1,5 +1,6 @@
 package com.tibi.geodesy.database
 
+import android.graphics.Color
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -11,7 +12,10 @@ data class Project constructor(
     val instrument: String = "Nikon"
 )
 
-@Entity
+@Entity(foreignKeys =
+[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
+    ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["stationId"]),
+    ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["backsightId"])])
 data class Measurement constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
@@ -19,78 +23,63 @@ data class Measurement constructor(
     val ha: Double,
     val sd: Double,
     val ht: Double,
-    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
     val projectName: String,
-    @ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["StationId"])
     val stationId: Long,
-    @ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["backsightId"])
     val backsightId: Long
 )
 
-@Entity
+@Entity(foreignKeys =
+[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
+    ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class Station constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val name: String,
     val hi: Double,
-    val x: Double,
-    val y: Double,
-    val z: Double,
-    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
+    val coordinateId: Long,
     val projectName: String
 )
 
-@Entity
+@Entity(foreignKeys =
+[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE)])
 data class Coordinate constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    @ForeignKey(entity = Measurement::class, parentColumns = ["id"], childColumns = ["measurementId"])
-    val measurementId: Long,
     val x: Double,
     val y: Double,
     val z: Double,
-    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
     val projectName: String
 )
 
-@Entity
+@Entity(foreignKeys =
+[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
+    ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class PointObject constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    @ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])
     val coordinateId: Long,
-    val angle: Double,
-    val textAttribute: String,
-    @ForeignKey(entity = DrawObject::class, parentColumns = ["id"], childColumns = ["objectId"])
-    val objectId: Long,
-    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
-    val projectName: String
+    val angle: Double = 0.0,
+    val textAttribute: String = "",
+    val projectName: String,
+    val type: String,
+    val color: Int = Color.BLACK,
+    val layer: String = "",
+    val weight: Double = 1.0
 )
 
-@Entity
+@Entity(foreignKeys =
+[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
+    ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class LinearObject constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    @ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])
     val coordinateId: Long,
-    @ForeignKey(entity = DrawObject::class, parentColumns = ["id"], childColumns = ["objectId"])
-    val objectId: Long,
     val pointIndex: Int,
-    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
-    val projectName: String
-)
-
-@Entity
-    data class DrawObject constructor(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    val projectName: String,
     val type: String,
-    val color: Int,
-    val layer: String,
-    val lineType: String,
-    val lineWeight: Double,
-    @ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"])
-    val projectName: String
+    val color: Int = Color.BLACK,
+    val layer: String = "",
+    val weight: Double = 1.0
 )
 
 
