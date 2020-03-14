@@ -1,4 +1,4 @@
-package com.tibi.geodesy.ui
+package com.tibi.geodesy.utils
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter

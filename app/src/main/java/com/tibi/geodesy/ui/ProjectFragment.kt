@@ -13,6 +13,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.tibi.geodesy.R
 import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentProjectBinding
+import com.tibi.geodesy.utils.ProjectListAdapter
+import com.tibi.geodesy.utils.ProjectListener
 import com.tibi.geodesy.viewmodels.ProjectViewModel
 import com.tibi.geodesy.viewmodels.ProjectViewModelFactory
 
@@ -31,9 +33,10 @@ class ProjectFragment : Fragment() {
         binding.projectViewModel = projectViewModel
         binding.lifecycleOwner = this
 
-        val adapter = ProjectListAdapter(ProjectListener {
-            projectViewModel.onProjectClicked(it)
-        })
+        val adapter =
+            ProjectListAdapter(ProjectListener {
+                projectViewModel.onProjectClicked(it)
+            })
         binding.projectList.adapter = adapter
         projectViewModel.navigateToSurvey.observe(viewLifecycleOwner, Observer { projectName ->
             projectName?.let {

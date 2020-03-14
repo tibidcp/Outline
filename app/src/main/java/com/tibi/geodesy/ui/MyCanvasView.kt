@@ -18,6 +18,6 @@ class MyCanvasView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawColor(Color.BLUE)
+        canvas?.drawColor(Color.WHITE)
     }
 }

@@ -1,4 +1,4 @@
-package com.tibi.geodesy.ui
+package com.tibi.geodesy.utils
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,10 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tibi.geodesy.database.Project
 import com.tibi.geodesy.databinding.TextItemViewBinding
 
-class ProjectListAdapter(val clickListener: ProjectListener) : ListAdapter<Project, ProjectListAdapter.ViewHolder>(ProjectDiffCallback()) {
+class ProjectListAdapter(val clickListener: ProjectListener) : ListAdapter<Project, ProjectListAdapter.ViewHolder>(
+    ProjectDiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,7 +34,9 @@ class ProjectListAdapter(val clickListener: ProjectListener) : ListAdapter<Proje
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = TextItemViewBinding.inflate(layoutInflater, parent,false)
-                return ViewHolder(binding)
+                return ViewHolder(
+                    binding
+                )
             }
         }
     }

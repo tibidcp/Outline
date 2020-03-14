@@ -9,7 +9,7 @@
             type="com.tibi.geodesy.database.Project" />
         <variable
             name="clickListener"
-            type="com.tibi.geodesy.ui.ProjectListener" />
+            type="com.tibi.geodesy.utils.ProjectListener" />
     </data>
     
     <TextView
