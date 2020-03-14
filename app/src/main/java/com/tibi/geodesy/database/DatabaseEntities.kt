@@ -3,6 +3,7 @@ package com.tibi.geodesy.database
 import android.graphics.Color
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity()
@@ -12,7 +13,8 @@ data class Project constructor(
     val instrument: String = "Nikon"
 )
 
-@Entity(foreignKeys =
+@Entity(indices = [Index("projectName"), Index("stationId"), Index("backsightId")],
+    foreignKeys =
 [ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
     ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["stationId"]),
     ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["backsightId"])])
@@ -28,7 +30,8 @@ data class Measurement constructor(
     val backsightId: Long
 )
 
-@Entity(foreignKeys =
+@Entity(indices = [Index("projectName"), Index("coordinateId")],
+    foreignKeys =
 [ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
     ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class Station constructor(
@@ -40,7 +43,8 @@ data class Station constructor(
     val projectName: String
 )
 
-@Entity(foreignKeys =
+@Entity(indices = [Index("projectName")],
+    foreignKeys =
 [ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE)])
 data class Coordinate constructor(
     @PrimaryKey(autoGenerate = true)
@@ -51,7 +55,8 @@ data class Coordinate constructor(
     val projectName: String
 )
 
-@Entity(foreignKeys =
+@Entity(indices = [Index("projectName"), Index("coordinateId")],
+    foreignKeys =
 [ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
     ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class PointObject constructor(
@@ -67,7 +72,8 @@ data class PointObject constructor(
     val weight: Double = 1.0
 )
 
-@Entity(foreignKeys =
+@Entity(indices = [Index("projectName"), Index("coordinateId")],
+    foreignKeys =
 [ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
     ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class LinearObject constructor(
