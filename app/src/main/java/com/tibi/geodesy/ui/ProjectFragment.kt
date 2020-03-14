@@ -16,7 +16,7 @@ import com.tibi.geodesy.databinding.FragmentProjectBinding
 import com.tibi.geodesy.utils.ProjectListAdapter
 import com.tibi.geodesy.utils.ProjectListener
 import com.tibi.geodesy.viewmodels.ProjectViewModel
-import com.tibi.geodesy.viewmodels.ProjectViewModelFactory
+import com.tibi.geodesy.viewModelFactories.ProjectViewModelFactory
 
 class ProjectFragment : Fragment() {
 
@@ -27,7 +27,11 @@ class ProjectFragment : Fragment() {
         )
         val application = requireNotNull(this.activity).application
         val dataSource = getDatabase(application).outlineDao
-        val projectViewModelFactory = ProjectViewModelFactory(dataSource, application)
+        val projectViewModelFactory =
+            ProjectViewModelFactory(
+                dataSource,
+                application
+            )
         val projectViewModel =
             ViewModelProvider(this, projectViewModelFactory).get(ProjectViewModel::class.java)
         binding.projectViewModel = projectViewModel

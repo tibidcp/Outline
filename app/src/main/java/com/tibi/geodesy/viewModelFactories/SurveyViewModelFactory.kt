@@ -1,19 +1,25 @@
-package com.tibi.geodesy.viewmodels
+package com.tibi.geodesy.viewModelFactories
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tibi.geodesy.database.OutlineDao
+import com.tibi.geodesy.viewmodels.SurveyViewModel
 import java.lang.IllegalArgumentException
 
-class ProjectViewModelFactory(
+class SurveyViewModelFactory (
+    private val projectName: String,
     private val dataSource: OutlineDao,
     private val application: Application
-) : ViewModelProvider.Factory {
+    ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ProjectViewModel::class.java)) {
-            return ProjectViewModel(dataSource, application) as T
+        if (modelClass.isAssignableFrom(SurveyViewModel::class.java)) {
+            return SurveyViewModel(
+                projectName,
+                dataSource,
+                application
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

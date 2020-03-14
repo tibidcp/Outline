@@ -11,7 +11,7 @@ import com.tibi.geodesy.R
 import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentSurveyBinding
 import com.tibi.geodesy.viewmodels.SurveyViewModel
-import com.tibi.geodesy.viewmodels.SurveyViewModelFactory
+import com.tibi.geodesy.viewModelFactories.SurveyViewModelFactory
 
 class SurveyFragment : Fragment() {
 
@@ -24,7 +24,11 @@ class SurveyFragment : Fragment() {
         val arguments = SurveyFragmentArgs.fromBundle(arguments!!)
         val dataSource = getDatabase(application).outlineDao
         val viewModelFactory =
-            SurveyViewModelFactory(arguments.projectName, dataSource, application)
+            SurveyViewModelFactory(
+                arguments.projectName,
+                dataSource,
+                application
+            )
         val surveyViewModel =
             ViewModelProvider(this, viewModelFactory)
                 .get(SurveyViewModel::class.java)
