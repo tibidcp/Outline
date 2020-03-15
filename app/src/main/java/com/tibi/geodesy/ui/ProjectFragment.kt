@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.tibi.geodesy.R
 import com.tibi.geodesy.database.getDatabase
+import com.tibi.geodesy.database.getProjectsDatabase
 import com.tibi.geodesy.databinding.FragmentProjectBinding
 import com.tibi.geodesy.utils.ProjectListAdapter
 import com.tibi.geodesy.utils.ProjectListener
@@ -26,7 +27,7 @@ class ProjectFragment : Fragment() {
             inflater, R.layout.fragment_project, container, false
         )
         val application = requireNotNull(this.activity).application
-        val dataSource = getDatabase(application).outlineDao
+        val dataSource = getProjectsDatabase(application).projectDao
         val projectViewModelFactory =
             ProjectViewModelFactory(
                 dataSource,

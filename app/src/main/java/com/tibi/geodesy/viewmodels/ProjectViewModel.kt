@@ -8,10 +8,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.tibi.geodesy.database.OutlineDao
 import com.tibi.geodesy.database.Project
+import com.tibi.geodesy.database.ProjectDao
 import kotlinx.coroutines.*
 
 class ProjectViewModel(
-    val database: OutlineDao,
+    val database: ProjectDao,
     application: Application
 ) : AndroidViewModel(application) {
 

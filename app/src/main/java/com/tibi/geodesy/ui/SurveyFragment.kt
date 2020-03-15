@@ -1,6 +1,7 @@
 package com.tibi.geodesy.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentSurveyBinding
 import com.tibi.geodesy.viewmodels.SurveyViewModel
 import com.tibi.geodesy.viewModelFactories.SurveyViewModelFactory
+import kotlinx.android.synthetic.main.fragment_survey.view.*
 
 class SurveyFragment : Fragment() {
 
@@ -22,10 +24,9 @@ class SurveyFragment : Fragment() {
         )
         val application = requireNotNull(this.activity).application
         val arguments = SurveyFragmentArgs.fromBundle(arguments!!)
-        val dataSource = getDatabase(application).outlineDao
+        val dataSource = getDatabase(application, arguments.projectName).outlineDao
         val viewModelFactory =
             SurveyViewModelFactory(
-                arguments.projectName,
                 dataSource,
                 application
             )
@@ -33,6 +34,10 @@ class SurveyFragment : Fragment() {
             ViewModelProvider(this, viewModelFactory)
                 .get(SurveyViewModel::class.java)
         binding.lifecycleOwner = this
+
+        surveyViewModel.addQuickStation()
+
+
 
 
         return binding.root

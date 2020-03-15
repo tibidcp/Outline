@@ -20,4 +20,6 @@ class MyCanvasView @JvmOverloads constructor(
         super.onDraw(canvas)
         canvas?.drawColor(Color.WHITE)
     }
+
+
 }

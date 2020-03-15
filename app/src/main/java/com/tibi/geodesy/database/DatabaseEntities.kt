@@ -6,86 +6,71 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity()
-data class Project constructor(
-    @PrimaryKey
-    val name: String,
-    val instrument: String = "Nikon"
-)
+enum class PointType {
+    STATION, BACKSIGHT
+}
 
-@Entity(indices = [Index("projectName"), Index("stationId"), Index("backsightId")],
+@Entity(indices = [Index("stationName"), Index("backsightName")],
     foreignKeys =
-[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
-    ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["stationId"]),
-    ForeignKey(entity = Station::class, parentColumns = ["id"], childColumns = ["backsightId"])])
+[ForeignKey(entity = Station::class, parentColumns = ["name"], childColumns = ["stationName"]),
+    ForeignKey(entity = Station::class, parentColumns = ["name"], childColumns = ["backsightName"])])
 data class Measurement constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    val va: Double,
-    val ha: Double,
-    val sd: Double,
-    val ht: Double,
-    val projectName: String,
-    val stationId: Long,
-    val backsightId: Long
+    var va: Double,
+    var ha: Double,
+    var sd: Double,
+    var ht: Double,
+    var stationName: String,
+    var backsightName: String
 )
 
-@Entity(indices = [Index("projectName"), Index("coordinateId")],
+@Entity(indices = [Index("coordinateId")],
     foreignKeys =
-[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
-    ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
+[ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class Station constructor(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
-    val name: String,
-    val hi: Double,
-    val coordinateId: Long,
-    val projectName: String
+    @PrimaryKey
+    var name: String,
+    var hi: Double,
+    var coordinateId: Long = 0
 )
 
-@Entity(indices = [Index("projectName")],
-    foreignKeys =
-[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE)])
+@Entity
 data class Coordinate constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    val x: Double,
-    val y: Double,
-    val z: Double,
-    val projectName: String
+    var x: Double,
+    var y: Double,
+    var z: Double
 )
 
-@Entity(indices = [Index("projectName"), Index("coordinateId")],
+@Entity(indices = [Index("coordinateId")],
     foreignKeys =
-[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
-    ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
+[ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class PointObject constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    val coordinateId: Long,
-    val angle: Double = 0.0,
-    val textAttribute: String = "",
-    val projectName: String,
-    val type: String,
-    val color: Int = Color.BLACK,
-    val layer: String = "",
-    val weight: Double = 1.0
+    var coordinateId: Long = 0,
+    var angle: Double = 0.0,
+    var textAttribute: String = "",
+    var type: String,
+    var color: Int = Color.BLACK,
+    var layer: String = "",
+    var weight: Double = 1.0
 )
 
-@Entity(indices = [Index("projectName"), Index("coordinateId")],
+@Entity(indices = [Index("coordinateId")],
     foreignKeys =
-[ForeignKey(entity = Project::class, parentColumns = ["name"], childColumns = ["projectName"], onDelete = ForeignKey.CASCADE),
-    ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
+[ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
 data class LinearObject constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    val coordinateId: Long,
-    val pointIndex: Int,
-    val projectName: String,
-    val type: String,
-    val color: Int = Color.BLACK,
-    val layer: String = "",
-    val weight: Double = 1.0
+    var coordinateId: Long = 0,
+    var pointIndex: Int,
+    var type: String,
+    var color: Int = Color.BLACK,
+    var layer: String = "",
+    var weight: Double = 1.0
 )
 
 

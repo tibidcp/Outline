@@ -6,17 +6,6 @@ import androidx.room.*
 
 @Dao
 interface OutlineDao {
-    @Query("select * from project where name = :name")
-    fun getProject(name: String): Project?
-
-    @Query("select * from project")
-    fun getAllProjects(): LiveData<List<Project>>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertProject(project: Project)
-    @Update
-    fun updateProject(project: Project)
-
     @Insert
     fun insertMeasurement(measurement: Measurement): Long
     @Insert
@@ -27,9 +16,21 @@ interface OutlineDao {
     fun insertPointObject(pointObject: PointObject): Long
     @Insert
     fun insertLinearObject(linearObject: LinearObject): Long
+
+    @Transaction
+    fun addStation(coordinate: Coordinate, station: Station, pointObject: PointObject){
+        val coordinateId = insertCoordinate(coordinate)
+        station.coordinateId = coordinateId
+        pointObject.coordinateId = coordinateId
+        insertStation(station)
+        insertPointObject(pointObject)
+    }
+
+    @Query("select * from station where name = :name")
+    fun getStation(name: String): Station?
 }
 
-@Database(entities = [Project::class, Measurement::class, Station::class, Coordinate::class,
+@Database(entities = [Measurement::class, Station::class, Coordinate::class,
     PointObject::class, LinearObject::class], version = 1, exportSchema = false)
 abstract class OutlineDatabase : RoomDatabase() {
     abstract val outlineDao: OutlineDao
@@ -37,12 +38,12 @@ abstract class OutlineDatabase : RoomDatabase() {
 
 private lateinit var INSTANCE: OutlineDatabase
 
-fun getDatabase(context: Context): OutlineDatabase {
+fun getDatabase(context: Context, projectName: String): OutlineDatabase {
     synchronized(OutlineDatabase::class.java) {
-        if (!::INSTANCE.isInitialized) {
+        if (!::INSTANCE.isInitialized || ::INSTANCE.name != "outline_$projectName") {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
                 OutlineDatabase::class.java,
-                "outline").build()
+                "outline_$projectName").build()
         }
     }
     return INSTANCE

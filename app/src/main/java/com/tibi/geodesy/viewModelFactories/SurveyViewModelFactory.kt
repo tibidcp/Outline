@@ -8,7 +8,6 @@ import com.tibi.geodesy.viewmodels.SurveyViewModel
 import java.lang.IllegalArgumentException
 
 class SurveyViewModelFactory (
-    private val projectName: String,
     private val dataSource: OutlineDao,
     private val application: Application
     ) : ViewModelProvider.Factory {
@@ -16,7 +15,6 @@ class SurveyViewModelFactory (
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SurveyViewModel::class.java)) {
             return SurveyViewModel(
-                projectName,
                 dataSource,
                 application
             ) as T

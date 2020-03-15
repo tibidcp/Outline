@@ -4,11 +4,12 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tibi.geodesy.database.OutlineDao
+import com.tibi.geodesy.database.ProjectDao
 import com.tibi.geodesy.viewmodels.ProjectViewModel
 import java.lang.IllegalArgumentException
 
 class ProjectViewModelFactory(
-    private val dataSource: OutlineDao,
+    private val dataSource: ProjectDao,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
