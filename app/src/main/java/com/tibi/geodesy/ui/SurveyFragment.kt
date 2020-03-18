@@ -1,10 +1,9 @@
 package com.tibi.geodesy.ui
 
+import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +12,6 @@ import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentSurveyBinding
 import com.tibi.geodesy.viewmodels.SurveyViewModel
 import com.tibi.geodesy.viewModelFactories.SurveyViewModelFactory
-import kotlinx.android.synthetic.main.fragment_survey.view.*
 
 class SurveyFragment : Fragment() {
 
@@ -37,8 +35,19 @@ class SurveyFragment : Fragment() {
 
         surveyViewModel.addQuickStation()
 
+        binding.button.setOnClickListener {
+            binding.myCanvasView.drawLines()
+        }
 
+        binding.button2.setOnClickListener {
+            binding.myCanvasView.zoomIn()
+            binding.textView.text = binding.myCanvasView.currentScale.toString()
+        }
 
+        binding.button3.setOnClickListener {
+            binding.myCanvasView.zoomOut()
+            binding.textView.text = binding.myCanvasView.currentScale.toString()
+        }
 
         return binding.root
     }
