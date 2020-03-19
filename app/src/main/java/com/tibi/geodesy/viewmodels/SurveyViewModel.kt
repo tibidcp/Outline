@@ -18,6 +18,7 @@ class SurveyViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+
     fun addQuickStation() {
         uiScope.launch { withContext(Dispatchers.IO) {
             if (database.getStation("S1") != null)

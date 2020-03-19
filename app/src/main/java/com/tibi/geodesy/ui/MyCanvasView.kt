@@ -8,6 +8,8 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.view.GestureDetectorCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 private const val DEBUG_TAG = "Gestures"
 private const val SCALE_FACTOR = 1.25f
@@ -16,11 +18,7 @@ class MyCanvasView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr),
-    GestureDetector.OnGestureListener,
-    GestureDetector.OnDoubleTapListener {
-
-    private lateinit var mDetector: GestureDetectorCompat
+) : View(context, attrs, defStyleAttr) {
 
     private lateinit var extraCanvas: Canvas
     private lateinit var extraBitmap: Bitmap
@@ -31,8 +29,8 @@ class MyCanvasView @JvmOverloads constructor(
     }
     private val path = Path()
 
-    private var motionTouchEventX = 0f
-    private var motionTouchEventY = 0f
+    var motionTouchEventX = 0f
+    var motionTouchEventY = 0f
 
     private var currentX = 0f
     private var currentY = 0f
@@ -54,8 +52,6 @@ class MyCanvasView @JvmOverloads constructor(
         extraCanvas = Canvas(extraBitmap)
         extraCanvas.drawColor(Color.WHITE)
 
-        mDetector = GestureDetectorCompat(context, this)
-        mDetector.setOnDoubleTapListener(this)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -101,13 +97,13 @@ class MyCanvasView @JvmOverloads constructor(
         invalidate()
     }
 
-    private fun touchStart() {
+    fun touchStart() {
         currentX = motionTouchEventX
         currentY = motionTouchEventY
         drawLines()
     }
 
-    private fun touchMove() {
+    fun touchMove() {
         val dx = motionTouchEventX - currentX
         val dy = motionTouchEventY - currentY
         extraCanvas.translate(dx / currentScale, dy / currentScale)
@@ -119,70 +115,13 @@ class MyCanvasView @JvmOverloads constructor(
         drawLines()
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        motionTouchEventX = event.x
-        motionTouchEventY = event.y
-
-        return if (mDetector.onTouchEvent(event)) {
-            true
+    fun changeColor() {
+        if (paint.color == Color.BLACK) {
+            paint.color = Color.RED
         } else {
-            super.onTouchEvent(event)
+            paint.color = Color.BLACK
         }
-    }
+        drawLines()
 
-    override fun onDown(event: MotionEvent): Boolean {
-        touchStart()
-        return true
-    }
-
-    override fun onFling(
-        event1: MotionEvent,
-        event2: MotionEvent,
-        velocityX: Float,
-        velocityY: Float
-    ): Boolean {
-        //Log.d(DEBUG_TAG, "onFling: $event1 $event2")
-        return true
-    }
-
-    override fun onLongPress(event: MotionEvent) {
-        //Log.d(DEBUG_TAG, "onLongPress: $event")
-    }
-
-    override fun onScroll(
-        event1: MotionEvent,
-        event2: MotionEvent,
-        distanceX: Float,
-        distanceY: Float
-    ): Boolean {
-
-        touchMove()
-
-        return true
-    }
-
-    override fun onShowPress(event: MotionEvent) {
-        //Log.d(DEBUG_TAG, "onShowPress: $event")
-    }
-
-    override fun onSingleTapUp(event: MotionEvent): Boolean {
-//        Log.d(DEBUG_TAG, "onSingleTapUp: $event")
-        return true
-    }
-
-    override fun onDoubleTap(event: MotionEvent): Boolean {
-//        Log.d(DEBUG_TAG, "onDoubleTap: $event")
-
-        return true
-    }
-
-    override fun onDoubleTapEvent(event: MotionEvent): Boolean {
-        //Log.d(DEBUG_TAG, "onDoubleTapEvent: $event")
-        return true
-    }
-
-    override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
-        //Log.d(DEBUG_TAG, "onSingleTapConfirmed: $event")
-        return true
     }
 }
