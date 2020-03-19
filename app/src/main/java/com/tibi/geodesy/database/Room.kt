@@ -26,6 +26,10 @@ interface OutlineDao {
         insertPointObject(pointObject)
     }
 
+    @Transaction
+    @Query("select angle, textAttribute, type, color, layer, weight, x, y, z from pointobject, coordinate where coordinate.id == pointobject.coordinateId")
+    fun getAllPointObjectCoordinates(): LiveData<List<PointObjectCoordinate>>
+
     @Query("select * from station where name = :name")
     fun getStation(name: String): Station?
 }

@@ -18,6 +18,7 @@ class SurveyViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+    val pointObjectCoordinates = database.getAllPointObjectCoordinates()
 
     fun addQuickStation() {
         uiScope.launch { withContext(Dispatchers.IO) {

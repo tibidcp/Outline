@@ -1,10 +1,7 @@
 package com.tibi.geodesy.database
 
 import android.graphics.Color
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 enum class PointType {
     STATION, BACKSIGHT
@@ -71,6 +68,18 @@ data class LinearObject constructor(
     var color: Int = Color.BLACK,
     var layer: String = "",
     var weight: Double = 1.0
+)
+
+data class PointObjectCoordinate constructor(
+    val angle: Double,
+    val textAttribute: String,
+    val type: String,
+    val color: Int,
+    val layer: String,
+    val weight: Double,
+    val x: Double,
+    val y: Double,
+    val z: Double
 )
 
 

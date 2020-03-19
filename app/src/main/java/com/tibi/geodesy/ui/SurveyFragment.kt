@@ -2,10 +2,12 @@ package com.tibi.geodesy.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.view.GestureDetectorCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.tibi.geodesy.R
 import com.tibi.geodesy.database.getDatabase
@@ -42,6 +44,12 @@ class SurveyFragment : Fragment(),
         binding.lifecycleOwner = this
 
         surveyViewModel.addQuickStation()
+
+        surveyViewModel.pointObjectCoordinates.observe(viewLifecycleOwner, Observer {
+            it?.let {
+
+            }
+        })
 
         binding.zoomInButton.setOnClickListener {
             binding.myCanvasView.zoomIn()
