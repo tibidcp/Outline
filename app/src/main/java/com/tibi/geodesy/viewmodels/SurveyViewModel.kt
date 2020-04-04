@@ -14,11 +14,13 @@ class SurveyViewModel(
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+        database.closeDb()
     }
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     val pointObjectCoordinates = database.getAllPointObjectCoordinates()
+    val linearObjectCoordinates = database.getAllLinearObjectCoordinates()
 
     fun addQuickStation() {
         uiScope.launch { withContext(Dispatchers.IO) {
@@ -29,5 +31,24 @@ class SurveyViewModel(
             val pointObject = PointObject(type = PointType.STATION.name)
             database.addStation(coordinate, station, pointObject)
         } }
+    }
+
+    fun addSomeObjects() {
+        uiScope.launch { withContext(Dispatchers.IO) {
+            if (pointObjectCoordinates.value?.size == 1) {
+                var pointIndex = 1
+                for (x in 100..1000 step 100) {
+                    for (y in 100..1000 step 100) {
+                        val coordinate = Coordinate(x = x.toDouble(), y = y.toDouble(), z = 0.0)
+                        val pointObject = PointObject(type = PointType.STOLB.name)
+                        val linearObject = LinearObject(pointIndex = pointIndex,
+                            type = LinearType.FENCE.name)
+                        pointIndex++
+                        database.addLineAndCoordinate(coordinate, linearObject)
+                        database.addPointAndCoordinate(coordinate, pointObject)
+                    }
+                }
+            }
+        }}
     }
 }

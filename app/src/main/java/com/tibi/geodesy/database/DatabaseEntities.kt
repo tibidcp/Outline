@@ -4,7 +4,11 @@ import android.graphics.Color
 import androidx.room.*
 
 enum class PointType {
-    STATION, BACKSIGHT
+    STATION, BACKSIGHT, STOLB
+}
+
+enum class LinearType {
+    FENCE
 }
 
 @Entity(indices = [Index("stationName"), Index("backsightName")],
@@ -77,6 +81,17 @@ data class PointObjectCoordinate constructor(
     val color: Int,
     val layer: String,
     val weight: Double,
+    val x: Double,
+    val y: Double,
+    val z: Double
+)
+
+data class LinearObjectCoordinate constructor(
+    var pointIndex: Int,
+    var type: String,
+    var color: Int,
+    var layer: String,
+    var weight: Double,
     val x: Double,
     val y: Double,
     val z: Double

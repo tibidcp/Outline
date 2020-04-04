@@ -14,6 +14,8 @@ import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentSurveyBinding
 import com.tibi.geodesy.viewModelFactories.SurveyViewModelFactory
 import com.tibi.geodesy.viewmodels.SurveyViewModel
+import kotlinx.android.synthetic.main.fragment_survey.*
+import kotlinx.android.synthetic.main.fragment_survey.view.*
 
 class SurveyFragment : Fragment(),
     GestureDetector.OnGestureListener,
@@ -46,9 +48,11 @@ class SurveyFragment : Fragment(),
         surveyViewModel.addQuickStation()
 
         surveyViewModel.pointObjectCoordinates.observe(viewLifecycleOwner, Observer {
-            it?.let {
+            it?.let { binding.myCanvasView.updatePoints(it) }
+        })
 
-            }
+        surveyViewModel.linearObjectCoordinates.observe(viewLifecycleOwner, Observer {
+            it?.let { binding.myCanvasView.updateLines(it) }
         })
 
         binding.zoomInButton.setOnClickListener {
@@ -57,6 +61,10 @@ class SurveyFragment : Fragment(),
 
         binding.zoomOutButton.setOnClickListener {
             binding.myCanvasView.zoomOut()
+        }
+
+        binding.centerButton.setOnClickListener {
+            surveyViewModel.addSomeObjects()
         }
 
         mDetector = GestureDetectorCompat(context, this)
@@ -127,5 +135,7 @@ class SurveyFragment : Fragment(),
         //Log.d(DEBUG_TAG, "onSingleTapConfirmed: $event")
         return true
     }
+
+
 
 }

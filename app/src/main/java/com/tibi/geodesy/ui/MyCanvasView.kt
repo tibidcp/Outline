@@ -3,15 +3,10 @@ package com.tibi.geodesy.ui
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
-import android.view.GestureDetector
-import android.view.MotionEvent
 import android.view.View
-import androidx.core.view.GestureDetectorCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.tibi.geodesy.database.LinearObjectCoordinate
+import com.tibi.geodesy.database.PointObjectCoordinate
 
-private const val DEBUG_TAG = "Gestures"
 private const val SCALE_FACTOR = 1.25f
 
 class MyCanvasView @JvmOverloads constructor(
@@ -37,6 +32,9 @@ class MyCanvasView @JvmOverloads constructor(
 
     private var centerX = 0f
     private var centerY = 0f
+
+    private lateinit var lines: List<LinearObjectCoordinate>
+    private lateinit var points: List<PointObjectCoordinate>
 
     var currentScale = 1f
 
@@ -75,7 +73,7 @@ class MyCanvasView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun drawLines() {
+    private fun redraw() {
         extraCanvas.drawColor(Color.WHITE)
         drawLine()
         drawLine2()
@@ -84,23 +82,19 @@ class MyCanvasView @JvmOverloads constructor(
     fun zoomIn() {
         currentScale *= SCALE_FACTOR
         extraCanvas.scale(SCALE_FACTOR, SCALE_FACTOR, centerX, centerY)
-        drawLines()
-
-        invalidate()
+        redraw()
     }
 
     fun zoomOut() {
         currentScale /= SCALE_FACTOR
         extraCanvas.scale(1f / SCALE_FACTOR, 1f / SCALE_FACTOR, centerX, centerY)
-        drawLines()
-
-        invalidate()
+        redraw()
     }
 
     fun touchStart() {
         currentX = motionTouchEventX
         currentY = motionTouchEventY
-        drawLines()
+        redraw()
     }
 
     fun touchMove() {
@@ -112,7 +106,7 @@ class MyCanvasView @JvmOverloads constructor(
         currentY = motionTouchEventY
         centerX -= dx / currentScale
         centerY -= dy / currentScale
-        drawLines()
+        redraw()
     }
 
     fun changeColor() {
@@ -121,7 +115,15 @@ class MyCanvasView @JvmOverloads constructor(
         } else {
             paint.color = Color.BLACK
         }
-        drawLines()
+        redraw()
 
+    }
+
+    fun updateLines(lines: List<LinearObjectCoordinate>) {
+        this.lines = lines
+    }
+
+    fun updatePoints(points: List<PointObjectCoordinate>) {
+        this.points = points
     }
 }

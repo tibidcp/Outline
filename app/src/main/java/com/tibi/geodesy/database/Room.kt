@@ -27,11 +27,35 @@ interface OutlineDao {
     }
 
     @Transaction
-    @Query("select angle, textAttribute, type, color, layer, weight, x, y, z from pointobject, coordinate where coordinate.id == pointobject.coordinateId")
+    fun  addPointAndCoordinate(coordinate: Coordinate, pointObject: PointObject){
+        val coordinateId = insertCoordinate(coordinate)
+        pointObject.coordinateId = coordinateId
+        insertPointObject(pointObject)
+    }
+
+    @Transaction
+    fun  addLineAndCoordinate(coordinate: Coordinate, linearObject: LinearObject){
+        val coordinateId = insertCoordinate(coordinate)
+        linearObject.coordinateId = coordinateId
+        insertLinearObject(linearObject)
+    }
+
+    @Transaction
+    @Query("select angle, textAttribute, type, color, layer, weight, x, y, z " +
+            "from pointobject, coordinate where coordinate.id == pointobject.coordinateId")
     fun getAllPointObjectCoordinates(): LiveData<List<PointObjectCoordinate>>
+
+    @Transaction
+    @Query("select pointIndex, type, color, layer, weight, x, y, z from linearobject, " +
+            "coordinate where coordinate.id == linearobject.coordinateId")
+    fun getAllLinearObjectCoordinates(): LiveData<List<LinearObjectCoordinate>>
 
     @Query("select * from station where name = :name")
     fun getStation(name: String): Station?
+
+    fun closeDb() {
+        INSTANCE.close()
+    }
 }
 
 @Database(entities = [Measurement::class, Station::class, Coordinate::class,
