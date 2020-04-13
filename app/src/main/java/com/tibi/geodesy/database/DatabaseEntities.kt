@@ -3,10 +3,6 @@ package com.tibi.geodesy.database
 import android.graphics.Color
 import androidx.room.*
 
-enum class PointType {
-    STATION, BACKSIGHT, STOLB
-}
-
 enum class LinearType {
     FENCE
 }
@@ -18,10 +14,10 @@ enum class LinearType {
 data class Measurement constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    var va: Double,
-    var ha: Double,
-    var sd: Double,
-    var ht: Double,
+    var va: Float,
+    var ha: Float,
+    var sd: Float,
+    var ht: Float,
     var stationName: String,
     var backsightName: String
 )
@@ -32,7 +28,7 @@ data class Measurement constructor(
 data class Station constructor(
     @PrimaryKey
     var name: String,
-    var hi: Double,
+    var hi: Float,
     var coordinateId: Long = 0
 )
 
@@ -40,9 +36,9 @@ data class Station constructor(
 data class Coordinate constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    var x: Double,
-    var y: Double,
-    var z: Double
+    var x: Float,
+    var y: Float,
+    var z: Float
 )
 
 @Entity(indices = [Index("coordinateId")],
@@ -52,12 +48,12 @@ data class PointObject constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     var coordinateId: Long = 0,
-    var angle: Double = 0.0,
+    var angle: Float = 0.0f,
     var textAttribute: String = "",
     var type: String,
     var color: Int = Color.BLACK,
     var layer: String = "",
-    var weight: Double = 1.0
+    var weight: Float = 1.0f
 )
 
 @Entity(indices = [Index("coordinateId")],
@@ -71,19 +67,19 @@ data class LinearObject constructor(
     var type: String,
     var color: Int = Color.BLACK,
     var layer: String = "",
-    var weight: Double = 1.0
+    var weight: Float = 1.0f
 )
 
 data class PointObjectCoordinate constructor(
-    val angle: Double,
+    val angle: Float,
     val textAttribute: String,
     val type: String,
     val color: Int,
     val layer: String,
-    val weight: Double,
-    val x: Double,
-    val y: Double,
-    val z: Double
+    val weight: Float,
+    val x: Float,
+    val y: Float,
+    val z: Float
 )
 
 data class LinearObjectCoordinate constructor(
@@ -91,11 +87,33 @@ data class LinearObjectCoordinate constructor(
     var type: String,
     var color: Int,
     var layer: String,
-    var weight: Double,
-    val x: Double,
-    val y: Double,
-    val z: Double
+    var weight: Float,
+    val x: Float,
+    val y: Float,
+    val z: Float
 )
+
+
+
+enum class PointType {
+    STATION,
+    BACK_SIGHT,
+    STONE_LIGHT,
+    METAL_LIGHT,
+    STONE_POST,
+    METAL_POST,
+    TRAFFIC_LIGHT,
+    WELL,
+    GRID,
+    KILOMETER_SIGN,
+    BUS_STOP_SIGN,
+    POINTER_SIGN,
+    ROAD_SIGN,
+    BUSH,
+    TREE,
+    CONIFER,
+    POINT
+}
 
 
 

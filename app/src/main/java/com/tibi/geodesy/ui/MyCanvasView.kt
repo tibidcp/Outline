@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.tibi.geodesy.database.LinearObjectCoordinate
 import com.tibi.geodesy.database.PointObjectCoordinate
+import com.tibi.geodesy.draw.Draw
 
 private const val SCALE_FACTOR = 1.25f
 
@@ -17,6 +18,7 @@ class MyCanvasView @JvmOverloads constructor(
 
     private lateinit var extraCanvas: Canvas
     private lateinit var extraBitmap: Bitmap
+    private lateinit var draw: Draw
     private val paint = Paint().apply {
         color = Color.BLACK
         style = Paint.Style.STROKE
@@ -33,8 +35,8 @@ class MyCanvasView @JvmOverloads constructor(
     private var centerX = 0f
     private var centerY = 0f
 
-    private lateinit var lines: List<LinearObjectCoordinate>
-    private lateinit var points: List<PointObjectCoordinate>
+    private var lines = listOf<LinearObjectCoordinate>()
+    private var points = listOf<PointObjectCoordinate>()
 
     var currentScale = 1f
 
@@ -49,7 +51,7 @@ class MyCanvasView @JvmOverloads constructor(
         extraBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         extraCanvas = Canvas(extraBitmap)
         extraCanvas.drawColor(Color.WHITE)
-
+        draw = Draw(extraCanvas)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -75,8 +77,8 @@ class MyCanvasView @JvmOverloads constructor(
 
     private fun redraw() {
         extraCanvas.drawColor(Color.WHITE)
-        drawLine()
-        drawLine2()
+        draw.drawAllPoint(points)
+        invalidate()
     }
 
     fun zoomIn() {
