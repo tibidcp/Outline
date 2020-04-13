@@ -93,6 +93,18 @@ class SurveyViewModel(
                 pointObject = PointObject(type = PointType.POINT.name)
                 database.addPointAndCoordinate(coordinate, pointObject)
 
+
+                coordinate = Coordinate(x = 100f, y = 1300f, z = 0.0f)
+                var coordinate2 = Coordinate(x = 1000f, y = 1300f, z = 0.0f)
+                var coordinate3 = Coordinate(x = 1000f, y = 2300f, z = 0.0f)
+                var linearObject = LinearObject(type = LinearType.FENCE.name)
+                var linearObjectId = database.insertLinearObject(linearObject)
+                var linearObjectPoint = LinearObjectPoint(linearObjectId = linearObjectId, pointIndex = 0)
+                database.addLinearAndCoordinate(coordinate, linearObjectPoint)
+                linearObjectPoint = LinearObjectPoint(linearObjectId = linearObjectId, pointIndex = 1)
+                database.addLinearAndCoordinate(coordinate2, linearObjectPoint)
+                linearObjectPoint = LinearObjectPoint(linearObjectId = linearObjectId, pointIndex = 2)
+                database.addLinearAndCoordinate(coordinate3, linearObjectPoint)
             }
         }}
     }

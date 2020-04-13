@@ -16,6 +16,8 @@ interface OutlineDao {
     fun insertPointObject(pointObject: PointObject): Long
     @Insert
     fun insertLinearObject(linearObject: LinearObject): Long
+    @Insert
+    fun insertLinearObjectPoint(linearObjectPoint: LinearObjectPoint): Long
 
     @Transaction
     fun addStation(coordinate: Coordinate, station: Station, pointObject: PointObject){
@@ -31,6 +33,13 @@ interface OutlineDao {
         val coordinateId = insertCoordinate(coordinate)
         pointObject.coordinateId = coordinateId
         insertPointObject(pointObject)
+    }
+
+    @Transaction
+    fun  addLinearAndCoordinate(coordinate: Coordinate, linearObjectPoint: LinearObjectPoint){
+        val coordinateId = insertCoordinate(coordinate)
+        linearObjectPoint.coordinateId = coordinateId
+        insertLinearObjectPoint(linearObjectPoint)
     }
 
     @Transaction
