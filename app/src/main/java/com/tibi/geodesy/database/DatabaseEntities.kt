@@ -56,18 +56,27 @@ data class PointObject constructor(
     var weight: Float = 1.0f
 )
 
-@Entity(indices = [Index("coordinateId")],
+@Entity(indices = [Index("coordinateId"), Index("linearObjectId")],
     foreignKeys =
-[ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"])])
-data class LinearObject constructor(
+[ForeignKey(entity = Coordinate::class, parentColumns = ["id"], childColumns = ["coordinateId"]),
+    ForeignKey(entity = LinearObject::class, parentColumns = ["id"], childColumns = ["linearObjectId"])])
+data class LinearObjectPoint constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     var coordinateId: Long = 0,
-    var pointIndex: Int,
+    var linearObjectId: Long = 0,
+    var pointIndex: Int
+)
+
+@Entity
+data class LinearObject constructor(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     var type: String,
     var color: Int = Color.BLACK,
     var layer: String = "",
-    var weight: Float = 1.0f
+    var weight: Float = 1.0f,
+    var closed: Boolean = false
 )
 
 data class PointObjectCoordinate constructor(
@@ -83,11 +92,13 @@ data class PointObjectCoordinate constructor(
 )
 
 data class LinearObjectCoordinate constructor(
+    var linearObjectId: Long,
     var pointIndex: Int,
     var type: String,
     var color: Int,
     var layer: String,
     var weight: Float,
+    var closed: Boolean,
     val x: Float,
     val y: Float,
     val z: Float

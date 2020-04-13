@@ -36,15 +36,10 @@ class SurveyViewModel(
     fun addSomeObjects() {
         uiScope.launch { withContext(Dispatchers.IO) {
             if (pointObjectCoordinates.value?.size == 1) {
-                var pointIndex = 1
                 for (x in 100..1000 step 100) {
                     for (y in 100..1000 step 100) {
                         val coordinate = Coordinate(x = x.toFloat(), y = y.toFloat(), z = 0.0f)
                         val pointObject = PointObject(type = PointType.METAL_LIGHT.name)
-                        val linearObject = LinearObject(pointIndex = pointIndex,
-                            type = LinearType.FENCE.name)
-                        pointIndex++
-                        database.addLineAndCoordinate(coordinate, linearObject)
                         database.addPointAndCoordinate(coordinate, pointObject)
                     }
                 }

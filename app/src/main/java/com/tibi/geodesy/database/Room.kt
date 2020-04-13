@@ -34,20 +34,13 @@ interface OutlineDao {
     }
 
     @Transaction
-    fun  addLineAndCoordinate(coordinate: Coordinate, linearObject: LinearObject){
-        val coordinateId = insertCoordinate(coordinate)
-        linearObject.coordinateId = coordinateId
-        insertLinearObject(linearObject)
-    }
-
-    @Transaction
     @Query("select angle, textAttribute, type, color, layer, weight, x, y, z " +
             "from pointobject, coordinate where coordinate.id == pointobject.coordinateId")
     fun getAllPointObjectCoordinates(): LiveData<List<PointObjectCoordinate>>
 
     @Transaction
-    @Query("select pointIndex, type, color, layer, weight, x, y, z from linearobject, " +
-            "coordinate where coordinate.id == linearobject.coordinateId")
+    @Query("select linearObjectId, pointIndex, type, color, layer, weight, closed, x, y, z from linearobjectpoint, " +
+            "coordinate, linearobject where coordinate.id == linearobjectpoint.coordinateId and linearobject.id == linearobjectpoint.linearObjectId")
     fun getAllLinearObjectCoordinates(): LiveData<List<LinearObjectCoordinate>>
 
     @Query("select * from station where name = :name")
@@ -59,7 +52,7 @@ interface OutlineDao {
 }
 
 @Database(entities = [Measurement::class, Station::class, Coordinate::class,
-    PointObject::class, LinearObject::class], version = 1, exportSchema = false)
+    PointObject::class, LinearObject::class, LinearObjectPoint::class], version = 1, exportSchema = false)
 abstract class OutlineDatabase : RoomDatabase() {
     abstract val outlineDao: OutlineDao
 }
