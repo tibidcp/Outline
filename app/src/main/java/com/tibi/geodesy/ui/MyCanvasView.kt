@@ -59,25 +59,10 @@ class MyCanvasView @JvmOverloads constructor(
         canvas.drawBitmap(extraBitmap, 0f, 0f, null)
     }
 
-    fun drawLine() {
-        path.reset()
-        path.moveTo(300f, 300f)
-        path.lineTo(350f, 350f)
-        extraCanvas.drawPath(path, paint)
-        invalidate()
-    }
-
-    fun drawLine2() {
-        path.reset()
-        path.moveTo(400f, 400f)
-        path.lineTo(450f, 450f)
-        extraCanvas.drawPath(path, paint)
-        invalidate()
-    }
-
     private fun redraw() {
         extraCanvas.drawColor(Color.WHITE)
         draw.drawAllPoint(points)
+        draw.drawAllLinear(lines)
         invalidate()
     }
 

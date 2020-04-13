@@ -3,10 +3,6 @@ package com.tibi.geodesy.database
 import android.graphics.Color
 import androidx.room.*
 
-enum class LinearType {
-    FENCE
-}
-
 @Entity(indices = [Index("stationName"), Index("backsightName")],
     foreignKeys =
 [ForeignKey(entity = Station::class, parentColumns = ["name"], childColumns = ["stationName"]),
@@ -124,6 +120,15 @@ enum class PointType {
     TREE,
     CONIFER,
     POINT
+}
+
+enum class LinearType {
+    CONTINUOUS,
+    DASHED,
+    SMALL_METAL_FENCE,
+    BIG_METAL_FENCE,
+    STONE_FENCE,
+    WALL_FENCE
 }
 
 

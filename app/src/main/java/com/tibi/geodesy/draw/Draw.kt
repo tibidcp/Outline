@@ -1,25 +1,24 @@
 package com.tibi.geodesy.draw
 
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
-import android.graphics.RectF
+import android.graphics.*
 import com.tibi.geodesy.database.LinearObjectCoordinate
+import com.tibi.geodesy.database.LinearType
 import com.tibi.geodesy.database.PointObjectCoordinate
 import com.tibi.geodesy.database.PointType
-import java.lang.IllegalArgumentException
 
 class Draw (canvas: Canvas) {
     private val paint = Paint()
     private val path = Path()
     private val rectF = RectF()
+    private val dashPathEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
+    private val shape = Path()
     private val canvas = canvas
 
     fun drawAllPoint(points: List<PointObjectCoordinate>) {
         points.forEach { point ->
             val x = point.x
             val y = point.y
-            initPaintPath(point)
+            initPaintPath(point.weight, point.color)
             drawText(point)
             when (point.type) {
                 PointType.STATION.name -> drawStation(x, y)
@@ -44,7 +43,82 @@ class Draw (canvas: Canvas) {
     }
 
     fun drawAllLinear(lines: List<LinearObjectCoordinate>) {
+        lines.groupBy { it.linearObjectId }
+            .values
+            .forEach { points ->
+                if (points.size > 1) {
+                    paint.reset()
+                    path.reset()
+                    initLinearPaint(points.first())
+                    points.sortedBy { it.pointIndex }
+                        .forEachIndexed { index, point ->
+                            if (index == 0) {
+                                path.moveTo(point.x, point.y)
+                            } else {
+                                path.lineTo(point.x, point.y)
+                            }
+                        }
+                    canvas.drawPath(path, paint)
+                }
+            }
+    }
 
+    private fun initLinearPaint(line: LinearObjectCoordinate) {
+        paint.apply {
+            style = Paint.Style.STROKE
+            strokeWidth = line.weight
+            color = line.color
+        }
+
+        when (line.type) {
+            LinearType.CONTINUOUS.name -> return
+            LinearType.DASHED.name -> paint.pathEffect = dashPathEffect
+            LinearType.SMALL_METAL_FENCE.name -> {
+                shape.apply {
+                    reset()
+                    addRect(0f, -0.5f, 7f, 0.5f, Path.Direction.CW)
+                    addRect(13f, -0.5f, 20f, 0.5f, Path.Direction.CW)
+                    addCircle(10f, 0f, 3f, Path.Direction.CW)
+                }
+                paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
+                    PathDashPathEffect.Style.MORPH)
+            }
+            LinearType.BIG_METAL_FENCE.name -> {
+                shape.apply {
+                    reset()
+                    addRect(0f, -0.5f, 7f, 0.5f, Path.Direction.CW)
+                    addRect(13f, -0.5f, 20f, 0.5f, Path.Direction.CW)
+                    addRect(9.5f, 3f, 10.5f, 5f, Path.Direction.CW)
+                    addCircle(10f, 0f, 3f, Path.Direction.CW)
+                }
+                paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
+                    PathDashPathEffect.Style.MORPH)
+            }
+            LinearType.STONE_FENCE.name -> {
+                shape.apply {
+                    reset()
+                    addRect(0f, -0.5f, 7f, 0.5f, Path.Direction.CW)
+                    addRect(13f, -0.5f, 20f, 0.5f, Path.Direction.CW)
+                    addRect(7f, -3f, 13f, 3f, Path.Direction.CW)
+                    addRect(9.5f, 3f, 10.5f, 5f, Path.Direction.CW)
+                }
+                paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
+                    PathDashPathEffect.Style.MORPH)
+            }
+            LinearType.WALL_FENCE.name -> {
+                shape.apply {
+                    reset()
+                    addRect(0f, -0.5f, 10f, 0.5f, Path.Direction.CW)
+                    addRect(10f, -0.5f, 20f, 0.5f, Path.Direction.CW)
+                    moveTo(8f, 0.5f)
+                    lineTo(10f, 4f)
+                    lineTo(12f, 0.5f)
+                }
+                paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
+                    PathDashPathEffect.Style.MORPH)
+            }
+            else -> throw java.lang.IllegalArgumentException("Wrong linear type")
+        }
     }
 
     private fun drawStation(x: Float, y: Float) {
@@ -262,13 +336,13 @@ class Draw (canvas: Canvas) {
         canvas.drawPath(path, paint)
     }
 
-    private fun initPaintPath(point: PointObjectCoordinate) {
+    private fun initPaintPath(weight: Float, color: Int) {
         paint.reset()
         path.reset()
         paint.apply {
             style = Paint.Style.STROKE
-            strokeWidth = point.weight
-            color = point.color
+            strokeWidth = weight
+            paint.color = color
         }
     }
 
