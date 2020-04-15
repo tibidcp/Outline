@@ -6,13 +6,12 @@ import com.tibi.geodesy.database.LinearType
 import com.tibi.geodesy.database.PointObjectCoordinate
 import com.tibi.geodesy.database.PointType
 
-class Draw (canvas: Canvas) {
+class Draw (private val canvas: Canvas) {
     private val paint = Paint()
     private val path = Path()
     private val rectF = RectF()
     private val dashPathEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
     private val shape = Path()
-    private val canvas = canvas
 
     fun drawAllPoint(points: List<PointObjectCoordinate>) {
         points.forEach { point ->
@@ -56,9 +55,11 @@ class Draw (canvas: Canvas) {
                                 path.moveTo(point.x, point.y)
                             } else {
                                 path.lineTo(point.x, point.y)
+                                canvas.drawPath(path, paint)
+                                path.reset()
+                                path.moveTo(point.x, point.y)
                             }
                         }
-                    canvas.drawPath(path, paint)
                 }
             }
     }
@@ -81,7 +82,7 @@ class Draw (canvas: Canvas) {
                     addCircle(10f, 0f, 3f, Path.Direction.CW)
                 }
                 paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
-                    PathDashPathEffect.Style.MORPH)
+                    PathDashPathEffect.Style.ROTATE)
             }
             LinearType.BIG_METAL_FENCE.name -> {
                 shape.apply {
@@ -92,7 +93,7 @@ class Draw (canvas: Canvas) {
                     addCircle(10f, 0f, 3f, Path.Direction.CW)
                 }
                 paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
-                    PathDashPathEffect.Style.MORPH)
+                    PathDashPathEffect.Style.ROTATE)
             }
             LinearType.STONE_FENCE.name -> {
                 shape.apply {
@@ -103,7 +104,7 @@ class Draw (canvas: Canvas) {
                     addRect(9.5f, 3f, 10.5f, 5f, Path.Direction.CW)
                 }
                 paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
-                    PathDashPathEffect.Style.MORPH)
+                    PathDashPathEffect.Style.ROTATE)
             }
             LinearType.WALL_FENCE.name -> {
                 shape.apply {
@@ -115,7 +116,7 @@ class Draw (canvas: Canvas) {
                     lineTo(12f, 0.5f)
                 }
                 paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
-                    PathDashPathEffect.Style.MORPH)
+                    PathDashPathEffect.Style.ROTATE)
             }
             else -> throw java.lang.IllegalArgumentException("Wrong linear type")
         }

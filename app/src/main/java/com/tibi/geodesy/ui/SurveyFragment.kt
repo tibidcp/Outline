@@ -70,7 +70,7 @@ class SurveyFragment : Fragment(),
         mDetector = GestureDetectorCompat(context, this)
         mDetector.setOnDoubleTapListener(this)
 
-        binding.myCanvasView.setOnTouchListener { v, event ->
+        binding.myCanvasView.setOnTouchListener { _, event ->
             binding.myCanvasView.motionTouchEventX = event.x
             binding.myCanvasView.motionTouchEventY = event.y
             mDetector.onTouchEvent(event)
