@@ -16,7 +16,7 @@ class Draw (private val canvas: Canvas) {
     fun drawAllPoint(points: List<PointObjectCoordinate>) {
         points.forEach { point ->
             val x = point.x
-            val y = point.y
+            val y = -point.y
             initPaintPath(point.weight, point.color)
             drawText(point)
             when (point.type) {
@@ -52,12 +52,12 @@ class Draw (private val canvas: Canvas) {
                     points.sortedBy { it.pointIndex }
                         .forEachIndexed { index, point ->
                             if (index == 0) {
-                                path.moveTo(point.x, point.y)
+                                path.moveTo(point.x, -point.y)
                             } else {
-                                path.lineTo(point.x, point.y)
+                                path.lineTo(point.x, -point.y)
                                 canvas.drawPath(path, paint)
                                 path.reset()
-                                path.moveTo(point.x, point.y)
+                                path.moveTo(point.x, -point.y)
                             }
                         }
                 }
@@ -350,7 +350,7 @@ class Draw (private val canvas: Canvas) {
     private fun drawText(point: PointObjectCoordinate) {
         if (point.textAttribute.isNotBlank()) {
             paint.strokeWidth = point.weight
-            canvas.drawText(point.textAttribute, point.x, point.y - 20, paint)
+            canvas.drawText(point.textAttribute, point.x, -point.y - 20, paint)
         }
     }
 }

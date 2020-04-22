@@ -3,6 +3,7 @@ package com.tibi.geodesy.ui
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import com.tibi.geodesy.database.LinearObjectCoordinate
 import com.tibi.geodesy.database.PointObjectCoordinate
@@ -19,18 +20,12 @@ class MyCanvasView @JvmOverloads constructor(
     private lateinit var extraCanvas: Canvas
     private lateinit var extraBitmap: Bitmap
     private lateinit var draw: Draw
-    private val paint = Paint().apply {
-        color = Color.BLACK
-        style = Paint.Style.STROKE
-        strokeWidth = 12f
-    }
-    private val path = Path()
 
     var motionTouchEventX = 0f
     var motionTouchEventY = 0f
 
-    private var currentX = 0f
-    private var currentY = 0f
+    private var displayX = 0f
+    private var displayY = 0f
 
     private var centerX = 0f
     private var centerY = 0f
@@ -79,31 +74,21 @@ class MyCanvasView @JvmOverloads constructor(
     }
 
     fun touchStart() {
-        currentX = motionTouchEventX
-        currentY = motionTouchEventY
+        displayX = motionTouchEventX
+        displayY = motionTouchEventY
         redraw()
     }
 
     fun touchMove() {
-        val dx = motionTouchEventX - currentX
-        val dy = motionTouchEventY - currentY
+        val dx = motionTouchEventX - displayX
+        val dy = motionTouchEventY - displayY
         extraCanvas.translate(dx / currentScale, dy / currentScale)
 
-        currentX = motionTouchEventX
-        currentY = motionTouchEventY
+        displayX = motionTouchEventX
+        displayY = motionTouchEventY
         centerX -= dx / currentScale
         centerY -= dy / currentScale
         redraw()
-    }
-
-    fun changeColor() {
-        if (paint.color == Color.BLACK) {
-            paint.color = Color.RED
-        } else {
-            paint.color = Color.BLACK
-        }
-        redraw()
-
     }
 
     fun updateLines(lines: List<LinearObjectCoordinate>) {
@@ -112,5 +97,10 @@ class MyCanvasView @JvmOverloads constructor(
 
     fun updatePoints(points: List<PointObjectCoordinate>) {
         this.points = points
+    }
+
+    fun select() {
+        Log.d("Coordinates", "X = ${centerX - width / 2 / currentScale + displayX / currentScale}, " +
+                "Y = ${centerY - height / 2 / currentScale + displayY / currentScale}")
     }
 }

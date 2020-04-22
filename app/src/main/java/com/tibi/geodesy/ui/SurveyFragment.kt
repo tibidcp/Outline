@@ -121,7 +121,7 @@ class SurveyFragment : Fragment(),
 
     override fun onDoubleTap(event: MotionEvent): Boolean {
 //        Log.d(DEBUG_TAG, "onDoubleTap: $event")
-
+        myCanvasView.zoomIn()
         return true
     }
 
@@ -131,7 +131,7 @@ class SurveyFragment : Fragment(),
     }
 
     override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
-        binding.myCanvasView.changeColor()
+        binding.myCanvasView.select()
         //Log.d(DEBUG_TAG, "onSingleTapConfirmed: $event")
         return true
     }
