@@ -33,7 +33,9 @@ class MyCanvasView @JvmOverloads constructor(
     private var lines = listOf<LinearObjectCoordinate>()
     private var points = listOf<PointObjectCoordinate>()
 
-    var currentScale = 1f
+    var currentScale = 10f
+
+
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -45,6 +47,10 @@ class MyCanvasView @JvmOverloads constructor(
         if (::extraBitmap.isInitialized) extraBitmap.recycle()
         extraBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         extraCanvas = Canvas(extraBitmap)
+        extraCanvas.scale(currentScale, currentScale, centerX, centerY)
+        extraCanvas.translate(centerX, centerY)
+        centerX -= centerX
+        centerY -= centerY
         extraCanvas.drawColor(Color.WHITE)
         draw = Draw(extraCanvas)
     }
@@ -104,5 +110,12 @@ class MyCanvasView @JvmOverloads constructor(
     fun select() {
         Log.d("Coordinates", "X = ${centerX - width / 2 / currentScale + displayX / currentScale}, " +
                 "Y = ${centerY - height / 2 / currentScale + displayY / currentScale}")
+    }
+
+    fun initDrawing() {
+        extraCanvas.translate(centerX, centerY)
+        centerX -= centerX
+        centerY -= centerY
+        redraw()
     }
 }

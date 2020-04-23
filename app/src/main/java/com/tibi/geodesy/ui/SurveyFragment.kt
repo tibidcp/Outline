@@ -20,8 +20,6 @@ import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentSurveyBinding
 import com.tibi.geodesy.viewModelFactories.SurveyViewModelFactory
 import com.tibi.geodesy.viewmodels.SurveyViewModel
-import kotlinx.android.synthetic.main.fragment_survey.*
-import kotlinx.android.synthetic.main.fragment_survey.view.*
 
 class SurveyFragment : Fragment(),
     GestureDetector.OnGestureListener,
@@ -74,6 +72,8 @@ class SurveyFragment : Fragment(),
 
         binding.centerButton.setOnClickListener {
             surveyViewModel.addSomeObjects()
+
+            binding.myCanvasView.initDrawing()
         }
 
         binding.bluetoothButton.setOnClickListener {
@@ -169,7 +169,7 @@ class SurveyFragment : Fragment(),
 
     override fun onDoubleTap(event: MotionEvent): Boolean {
 //        Log.d(DEBUG_TAG, "onDoubleTap: $event")
-        myCanvasView.zoomIn()
+        binding.myCanvasView.zoomIn()
         return true
     }
 
