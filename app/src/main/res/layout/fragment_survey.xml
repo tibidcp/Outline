@@ -41,5 +41,13 @@
             app:layout_constraintStart_toStartOf="@+id/zoomOutButton"
             app:layout_constraintTop_toBottomOf="@+id/zoomOutButton" />
 
+        <ImageButton
+            android:id="@+id/bluetoothButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_bluetooth_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

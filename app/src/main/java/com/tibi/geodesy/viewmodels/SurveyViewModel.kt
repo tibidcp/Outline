@@ -1,7 +1,10 @@
 package com.tibi.geodesy.viewmodels
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import app.akexorcist.bluetotohspp.library.BluetoothSPP
+import app.akexorcist.bluetotohspp.library.BluetoothState
 import com.tibi.geodesy.database.*
 import kotlinx.coroutines.*
 
@@ -36,8 +39,8 @@ class SurveyViewModel(
     fun addSomeObjects() {
         uiScope.launch { withContext(Dispatchers.IO) {
             if (pointObjectCoordinates.value?.size == 1) {
-                for (x in 100..10000 step 100) {
-                    for (y in 100..10000 step 100) {
+                for (x in 100..1000 step 100) {
+                    for (y in 100..1000 step 100) {
                         val coordinate = Coordinate(x = x.toFloat(), y = y.toFloat(), z = 0.0f)
                         val pointObject = PointObject(type = PointType.METAL_LIGHT.name)
                         database.addPointAndCoordinate(coordinate, pointObject)

@@ -93,10 +93,12 @@ class MyCanvasView @JvmOverloads constructor(
 
     fun updateLines(lines: List<LinearObjectCoordinate>) {
         this.lines = lines
+        redraw()
     }
 
     fun updatePoints(points: List<PointObjectCoordinate>) {
         this.points = points
+        redraw()
     }
 
     fun select() {
