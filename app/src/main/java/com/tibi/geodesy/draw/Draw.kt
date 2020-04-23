@@ -10,7 +10,7 @@ class Draw (private val canvas: Canvas) {
     private val paint = Paint()
     private val path = Path()
     private val rectF = RectF()
-    private val dashPathEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
+    private val dashPathEffect = DashPathEffect(floatArrayOf(1.0f, 0.5f), 0f)
     private val shape = Path()
 
     fun drawAllPoint(points: List<PointObjectCoordinate>) {
@@ -77,45 +77,45 @@ class Draw (private val canvas: Canvas) {
             LinearType.SMALL_METAL_FENCE.name -> {
                 shape.apply {
                     reset()
-                    addRect(0f, -0.5f, 7f, 0.5f, Path.Direction.CW)
-                    addRect(13f, -0.5f, 20f, 0.5f, Path.Direction.CW)
-                    addCircle(10f, 0f, 3f, Path.Direction.CW)
+                    addRect(0f, -0.05f, 0.7f, 0.05f, Path.Direction.CW)
+                    addRect(1.3f, -0.05f, 2.0f, 0.05f, Path.Direction.CW)
+                    addCircle(1.0f, 0f, 0.3f, Path.Direction.CW)
                 }
-                paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
+                paint.pathEffect = PathDashPathEffect(shape, 2.0f, 0f,
                     PathDashPathEffect.Style.ROTATE)
             }
             LinearType.BIG_METAL_FENCE.name -> {
                 shape.apply {
                     reset()
-                    addRect(0f, -0.5f, 7f, 0.5f, Path.Direction.CW)
-                    addRect(13f, -0.5f, 20f, 0.5f, Path.Direction.CW)
-                    addRect(9.5f, 3f, 10.5f, 5f, Path.Direction.CW)
-                    addCircle(10f, 0f, 3f, Path.Direction.CW)
+                    addRect(0f, -0.05f, 0.7f, 0.05f, Path.Direction.CW)
+                    addRect(1.3f, -0.05f, 2.0f, 0.05f, Path.Direction.CW)
+                    addRect(0.95f, 0.3f, 1.05f, 0.5f, Path.Direction.CW)
+                    addCircle(1.0f, 0f, 0.3f, Path.Direction.CW)
                 }
-                paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
+                paint.pathEffect = PathDashPathEffect(shape, 2.0f, 0f,
                     PathDashPathEffect.Style.ROTATE)
             }
             LinearType.STONE_FENCE.name -> {
                 shape.apply {
                     reset()
-                    addRect(0f, -0.5f, 7f, 0.5f, Path.Direction.CW)
-                    addRect(13f, -0.5f, 20f, 0.5f, Path.Direction.CW)
-                    addRect(7f, -3f, 13f, 3f, Path.Direction.CW)
-                    addRect(9.5f, 3f, 10.5f, 5f, Path.Direction.CW)
+                    addRect(0f, -0.05f, 0.7f, 0.05f, Path.Direction.CW)
+                    addRect(1.3f, -0.05f, 2.0f, 0.05f, Path.Direction.CW)
+                    addRect(0.7f, -0.3f, 1.3f, 0.3f, Path.Direction.CW)
+                    addRect(0.95f, 0.3f, 1.05f, 0.5f, Path.Direction.CW)
                 }
-                paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
+                paint.pathEffect = PathDashPathEffect(shape, 2.0f, 0f,
                     PathDashPathEffect.Style.ROTATE)
             }
             LinearType.WALL_FENCE.name -> {
                 shape.apply {
                     reset()
-                    addRect(0f, -0.5f, 10f, 0.5f, Path.Direction.CW)
-                    addRect(10f, -0.5f, 20f, 0.5f, Path.Direction.CW)
-                    moveTo(8f, 0.5f)
-                    lineTo(10f, 4f)
-                    lineTo(12f, 0.5f)
+                    addRect(0f, -0.05f, 1.0f, 0.05f, Path.Direction.CW)
+                    addRect(1.0f, -0.05f, 2.0f, 0.05f, Path.Direction.CW)
+                    moveTo(0.8f, 0.05f)
+                    lineTo(1.0f, 0.4f)
+                    lineTo(1.2f, 0.05f)
                 }
-                paint.pathEffect = PathDashPathEffect(shape, 20f, 0f,
+                paint.pathEffect = PathDashPathEffect(shape, 2.0f, 0f,
                     PathDashPathEffect.Style.ROTATE)
             }
             else -> throw java.lang.IllegalArgumentException("Wrong linear type")
@@ -123,66 +123,66 @@ class Draw (private val canvas: Canvas) {
     }
 
     private fun drawStation(x: Float, y: Float) {
-        path.moveTo(x, y - 17.3f)
-        path.lineTo(x + 15f, y + 8.66f)
-        path.lineTo(x - 15f, y + 8.66f)
+        path.moveTo(x, y - 1.73f)
+        path.lineTo(x + 1.5f, y + 0.866f)
+        path.lineTo(x - 1.5f, y + 0.866f)
         path.close()
-        path.addCircle(x, y, 2f, Path.Direction.CW)
+        path.addCircle(x, y, 0.2f, Path.Direction.CW)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawStoneLight(x: Float, y: Float) {
+        path.addCircle(x, y, 0.05f, Path.Direction.CW)
         path.addCircle(x, y, 0.5f, Path.Direction.CW)
-        path.addCircle(x, y, 5f, Path.Direction.CW)
-        path.moveTo(x, y - 5)
-        path.lineTo(x, y - 30)
-        path.moveTo(x, y - 27)
-        path.lineTo(x + 15, y - 27)
-        path.moveTo(x + 7, y - 27)
-        path.lineTo(x + 7, y - 17)
-        path.moveTo(x + 12, y - 27)
-        path.lineTo(x + 12, y - 17)
+        path.moveTo(x, y - 0.5f)
+        path.lineTo(x, y - 3.0f)
+        path.moveTo(x, y - 2.7f)
+        path.lineTo(x + 1.5f, y - 2.7f)
+        path.moveTo(x + 0.7f, y - 2.7f)
+        path.lineTo(x + 0.7f, y - 1.7f)
+        path.moveTo(x + 1.2f, y - 2.7f)
+        path.lineTo(x + 1.2f, y - 1.7f)
 
-        rectF.set(x + 7, y - 20, x + 12, y - 14)
+        rectF.set(x + 0.7f, y - 2.0f, x + 1.2f, y - 1.4f)
         path.addArc(rectF, 0f, 180f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawMetalLight(x: Float, y: Float) {
-        var r = 0.5f
-        while (r <= 5f) {
+        var r = 0.05f
+        while (r <= 0.5f) {
             path.addCircle(x, y, r, Path.Direction.CW)
-            r += 0.5f
+            r += 0.05f
         }
 
-        path.moveTo(x, y - 5)
-        path.lineTo(x, y - 30)
-        path.moveTo(x, y - 27)
-        path.lineTo(x + 15, y - 27)
-        path.moveTo(x + 7, y - 27)
-        path.lineTo(x + 7, y - 17)
-        path.moveTo(x + 12, y - 27)
-        path.lineTo(x + 12, y - 17)
+        path.moveTo(x, y - 0.5f)
+        path.lineTo(x, y - 3.0f)
+        path.moveTo(x, y - 2.7f)
+        path.lineTo(x + 1.5f, y - 2.7f)
+        path.moveTo(x + 0.7f, y - 2.7f)
+        path.lineTo(x + 0.7f, y - 1.7f)
+        path.moveTo(x + 1.2f, y - 2.7f)
+        path.lineTo(x + 1.2f, y - 1.7f)
 
-        rectF.set(x + 7, y - 20, x + 12, y - 14)
+        rectF.set(x + 0.7f, y - 2.0f, x + 1.2f, y - 1.4f)
         path.addArc(rectF, 0f, 180f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawStonePost(x: Float, y: Float) {
+        path.addCircle(x, y, 0.05f, Path.Direction.CW)
         path.addCircle(x, y, 0.5f, Path.Direction.CW)
-        path.addCircle(x, y, 5f, Path.Direction.CW)
         canvas.drawPath(path, paint)
     }
 
     private fun drawMetalPost(x: Float, y: Float) {
-        var r = 0.5f
-        while (r <= 5f) {
+        var r = 0.05f
+        while (r <= 0.5f) {
             path.addCircle(x, y, r, Path.Direction.CW)
-            r += 0.5f
+            r += 0.05f
         }
 
         canvas.drawPath(path, paint)
@@ -190,149 +190,149 @@ class Draw (private val canvas: Canvas) {
 
     private fun drawTrafficLight(x: Float, y: Float) {
         path.moveTo(x, y)
-        path.lineTo(x, y - 18)
-        path.moveTo(x - 4, y)
-        path.lineTo(x + 4, y)
+        path.lineTo(x, y - 1.8f)
+        path.moveTo(x - 0.4f, y)
+        path.lineTo(x + 0.4f, y)
 
-        rectF.set(x - 5, y - 28, x + 5, y - 18)
+        rectF.set(x - 0.5f, y - 2.8f, x + 0.5f, y - 1.8f)
         path.addArc(rectF, 0f, 180f)
 
-        path.moveTo(x - 5, y - 23)
-        path.lineTo(x - 5, y - 30)
-        path.moveTo(x + 5, y - 23)
-        path.lineTo(x + 5, y - 30)
+        path.moveTo(x - 0.5f, y - 2.3f)
+        path.lineTo(x - 0.5f, y - 3.0f)
+        path.moveTo(x + 0.5f, y - 2.3f)
+        path.lineTo(x + 0.5f, y - 3.0f)
 
-        rectF.set(x - 5, y - 35, x + 5, y - 25)
+        rectF.set(x - 0.5f, y - 3.5f, x + 0.5f, y - 2.5f)
         path.addArc(rectF, 180f, 180f)
 
-        path.addCircle(x, y - 22.25f, 1f, Path.Direction.CW)
-        path.addCircle(x, y - 26.5f, 1f, Path.Direction.CW)
-        path.addCircle(x, y - 30.75f, 1f, Path.Direction.CW)
+        path.addCircle(x, y - 2.225f, 0.1f, Path.Direction.CW)
+        path.addCircle(x, y - 2.65f, 0.1f, Path.Direction.CW)
+        path.addCircle(x, y - 3.075f, 0.1f, Path.Direction.CW)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawWell(x: Float, y: Float) {
-        path.addCircle(x, y, 7.5f, Path.Direction.CW)
-        path.moveTo(x - 5.3f, y - 5.3f)
-        path.lineTo(x + 5.3f, y + 5.3f)
+        path.addCircle(x, y, 0.75f, Path.Direction.CW)
+        path.moveTo(x - 0.53f, y - 0.53f)
+        path.lineTo(x + 0.53f, y + 0.53f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawGrid(x: Float, y: Float) {
-        path.moveTo(x - 7.5f, y - 5f)
-        path.lineTo(x + 7.5f, y - 5f)
-        path.lineTo(x + 7.5f, y + 5f)
-        path.lineTo(x - 7.5f, y + 5f)
+        path.moveTo(x - 0.75f, y - 0.5f)
+        path.lineTo(x + 0.75f, y - 0.5f)
+        path.lineTo(x + 0.75f, y + 0.5f)
+        path.lineTo(x - 0.75f, y + 0.5f)
         path.close()
-        path.moveTo(x - 2.5f, y - 5f)
-        path.lineTo(x - 2.5f, y + 5f)
-        path.moveTo(x + 2.5f, y - 5f)
-        path.lineTo(x + 2.5f, y + 5f)
+        path.moveTo(x - 0.25f, y - 0.5f)
+        path.lineTo(x - 0.25f, y + 0.5f)
+        path.moveTo(x + 0.25f, y - 0.5f)
+        path.lineTo(x + 0.25f, y + 0.5f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawKilometerSign(x: Float, y: Float) {
-        path.moveTo(x + 8, y)
+        path.moveTo(x + 0.8f, y)
         path.lineTo(x, y)
-        path.lineTo(x, y - 25)
-        path.lineTo(x + 12.5f, y - 25)
-        path.lineTo(x + 12.5f, y - 35)
-        path.lineTo(x - 12.5f, y - 35)
-        path.lineTo(x - 12.5f, y - 25)
-        path.lineTo(x, y - 25)
+        path.lineTo(x, y - 2.5f)
+        path.lineTo(x + 1.25f, y - 2.5f)
+        path.lineTo(x + 1.25f, y - 3.5f)
+        path.lineTo(x - 1.25f, y - 3.5f)
+        path.lineTo(x - 1.25f, y - 2.5f)
+        path.lineTo(x, y - 2.5f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawBusStopSign(x: Float, y: Float) {
-        path.moveTo(x + 8, y)
+        path.moveTo(x + 0.8f, y)
         path.lineTo(x, y)
-        path.lineTo(x, y - 25)
-        path.lineTo(x + 25f, y - 25)
-        path.lineTo(x + 25f, y - 35)
-        path.lineTo(x, y - 35)
-        path.lineTo(x, y - 25)
-        path.lineTo(x, y - 25)
+        path.lineTo(x, y - 2.5f)
+        path.lineTo(x + 2.5f, y - 2.5f)
+        path.lineTo(x + 2.5f, y - 3.5f)
+        path.lineTo(x, y - 3.5f)
+        path.lineTo(x, y - 2.5f)
+        path.lineTo(x, y - 2.5f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawPointerSign(x: Float, y: Float) {
-        path.moveTo(x + 8, y)
+        path.moveTo(x + 0.8f, y)
         path.lineTo(x, y)
-        path.lineTo(x, y - 30)
-        path.lineTo(x + 10, y - 25)
-        path.moveTo(x, y - 30)
-        path.lineTo(x + 10, y - 35)
+        path.lineTo(x, y - 3.0f)
+        path.lineTo(x + 1.0f, y - 2.5f)
+        path.moveTo(x, y - 3.0f)
+        path.lineTo(x + 1.0f, y - 3.5f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawRoadSign(x: Float, y: Float) {
-        path.moveTo(x + 8, y)
+        path.moveTo(x + 0.8f, y)
         path.lineTo(x, y)
-        path.lineTo(x, y - 18)
-        path.lineTo(x + 5f, y - 18)
-        path.lineTo(x + 5f, y - 35)
-        path.lineTo(x - 5f, y - 35)
-        path.lineTo(x - 5f, y - 18)
-        path.lineTo(x, y - 18)
+        path.lineTo(x, y - 1.8f)
+        path.lineTo(x + 0.5f, y - 1.8f)
+        path.lineTo(x + 0.5f, y - 3.5f)
+        path.lineTo(x - 0.5f, y - 3.5f)
+        path.lineTo(x - 0.5f, y - 1.8f)
+        path.lineTo(x, y - 1.8f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawBush(x: Float, y: Float) {
-        path.addCircle(x, y, 4f, Path.Direction.CW)
-        path.addCircle(x, y - 13, 3f, Path.Direction.CW)
-        path.addCircle(x, y - 13, 2f, Path.Direction.CW)
-        path.addCircle(x, y - 13, 1f, Path.Direction.CW)
-        path.addCircle(x - 10, y + 10, 3f, Path.Direction.CW)
-        path.addCircle(x - 10, y + 10, 2f, Path.Direction.CW)
-        path.addCircle(x - 10, y + 10, 1f, Path.Direction.CW)
-        path.addCircle(x + 10, y + 10, 3f, Path.Direction.CW)
-        path.addCircle(x + 10, y + 10, 2f, Path.Direction.CW)
-        path.addCircle(x + 10, y + 10, 1f, Path.Direction.CW)
+        path.addCircle(x, y, 0.4f, Path.Direction.CW)
+        path.addCircle(x, y - 1.3f, 0.3f, Path.Direction.CW)
+        path.addCircle(x, y - 1.3f, 0.2f, Path.Direction.CW)
+        path.addCircle(x, y - 1.3f, 0.1f, Path.Direction.CW)
+        path.addCircle(x - 1.0f, y + 1.0f, 0.3f, Path.Direction.CW)
+        path.addCircle(x - 1.0f, y + 1.0f, 0.2f, Path.Direction.CW)
+        path.addCircle(x - 1.0f, y + 1.0f, 0.1f, Path.Direction.CW)
+        path.addCircle(x + 1.0f, y + 1.0f, 0.3f, Path.Direction.CW)
+        path.addCircle(x + 1.0f, y + 1.0f, 0.2f, Path.Direction.CW)
+        path.addCircle(x + 1.0f, y + 1.0f, 0.1f, Path.Direction.CW)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawTree(x: Float, y: Float) {
-        path.addCircle(x, y, 3f, Path.Direction.CW)
+        path.addCircle(x, y, 0.3f, Path.Direction.CW)
 
-        rectF.set(x - 4, y - 32, x + 4, y - 5)
-        path.moveTo(x, y - 14.5f)
+        rectF.set(x - 0.4f, y - 3.2f, x + 0.4f, y - 0.5f)
+        path.moveTo(x, y - 1.45f)
         path.addOval(rectF, Path.Direction.CW)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawConifer(x: Float, y: Float) {
-        path.moveTo(x + 5, y)
+        path.moveTo(x + 0.5f, y)
         path.lineTo(x, y)
-        path.lineTo(x, y - 35)
-        path.lineTo(x + 6, y - 29)
-        path.moveTo(x, y - 35)
-        path.lineTo(x - 6, y - 29)
-        path.moveTo(x, y - 25)
-        path.lineTo(x + 8, y - 17)
-        path.moveTo(x, y - 25)
-        path.lineTo(x - 8, y - 17)
-        path.moveTo(x, y - 15)
-        path.lineTo(x + 10, y - 5)
-        path.moveTo(x, y - 15)
-        path.lineTo(x - 10, y - 5)
+        path.lineTo(x, y - 3.5f)
+        path.lineTo(x + 0.6f, y - 2.9f)
+        path.moveTo(x, y - 3.5f)
+        path.lineTo(x - 0.6f, y - 2.9f)
+        path.moveTo(x, y - 2.5f)
+        path.lineTo(x + 0.8f, y - 1.7f)
+        path.moveTo(x, y - 2.5f)
+        path.lineTo(x - 0.8f, y - 1.7f)
+        path.moveTo(x, y - 1.5f)
+        path.lineTo(x + 1.0f, y - 0.5f)
+        path.moveTo(x, y - 1.5f)
+        path.lineTo(x - 1.0f, y - 0.5f)
 
         canvas.drawPath(path, paint)
     }
 
     private fun drawPoint(x: Float, y: Float) {
-        path.moveTo(x - 2, y - 2)
-        path.lineTo(x + 2, y + 2)
-        path.moveTo(x + 2, y - 2)
-        path.lineTo(x - 2, y + 2)
+        path.moveTo(x - 0.2f, y - 0.2f)
+        path.lineTo(x + 0.2f, y + 0.2f)
+        path.moveTo(x + 0.2f, y - 0.2f)
+        path.lineTo(x - 0.2f, y + 0.2f)
 
         canvas.drawPath(path, paint)
     }
@@ -350,7 +350,7 @@ class Draw (private val canvas: Canvas) {
     private fun drawText(point: PointObjectCoordinate) {
         if (point.textAttribute.isNotBlank()) {
             paint.strokeWidth = point.weight
-            canvas.drawText(point.textAttribute, point.x, -point.y - 20, paint)
+            canvas.drawText(point.textAttribute, point.x, -point.y - 2.0f, paint)
         }
     }
 }

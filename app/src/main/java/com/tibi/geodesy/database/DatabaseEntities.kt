@@ -49,7 +49,7 @@ data class PointObject constructor(
     var type: String,
     var color: Int = Color.BLACK,
     var layer: String = "",
-    var weight: Float = 1.0f
+    var weight: Float = 0.1f
 )
 
 @Entity(indices = [Index("coordinateId"), Index("linearObjectId")],
@@ -71,7 +71,7 @@ data class LinearObject constructor(
     var type: String,
     var color: Int = Color.BLACK,
     var layer: String = "",
-    var weight: Float = 1.0f,
+    var weight: Float = 0.1f,
     var closed: Boolean = false
 )
 
