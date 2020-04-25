@@ -79,7 +79,7 @@ data class PointObjectCoordinate constructor(
     val angle: Float,
     val textAttribute: String,
     val type: String,
-    val color: Int,
+    var color: Int,
     val layer: String,
     val weight: Float,
     val x: Float,

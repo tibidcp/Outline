@@ -8,6 +8,7 @@ import android.view.View
 import com.tibi.geodesy.database.LinearObjectCoordinate
 import com.tibi.geodesy.database.PointObjectCoordinate
 import com.tibi.geodesy.draw.Draw
+import com.tibi.geodesy.utils.selectCanvasObject
 
 private const val SCALE_FACTOR = 1.25f
 
@@ -60,7 +61,7 @@ class MyCanvasView @JvmOverloads constructor(
         canvas.drawBitmap(extraBitmap, 0f, 0f, null)
     }
 
-    private fun redraw() {
+    fun redraw() {
         extraCanvas.drawColor(Color.WHITE)
         draw.drawAllPoint(points)
         draw.drawAllLinear(lines)
@@ -107,15 +108,35 @@ class MyCanvasView @JvmOverloads constructor(
         redraw()
     }
 
-    fun select() {
-        Log.d("Coordinates", "X = ${centerX - width / 2 / currentScale + displayX / currentScale}, " +
-                "Y = ${centerY - height / 2 / currentScale + displayY / currentScale}")
+    fun select() : Any? {
+        val x = centerX - width / 2f / currentScale + displayX / currentScale
+        val y = - (centerY - height / 2f / currentScale + displayY / currentScale)
+        val delta = 50f / currentScale
+        return selectCanvasObject(x + delta, y + delta,
+        x - delta, y - delta, points, lines)
     }
 
     fun initDrawing() {
         extraCanvas.translate(centerX, centerY)
         centerX -= centerX
         centerY -= centerY
+        redraw()
+    }
+
+    fun highlightPoint(point: PointObjectCoordinate) {
+        point.color = Color.RED
+        redraw()
+    }
+
+    fun unHighlightAll() {
+        points.forEach { it.color = Color.BLACK }
+        lines.forEach { it.color = Color.BLACK }
+        redraw()
+    }
+
+    fun highlightLine(line: LinearObjectCoordinate) {
+        lines.filter { it.linearObjectId == line.linearObjectId }
+            .forEach { it.color = Color.RED }
         redraw()
     }
 }

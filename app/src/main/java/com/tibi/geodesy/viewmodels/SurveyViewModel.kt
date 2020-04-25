@@ -3,6 +3,8 @@ package com.tibi.geodesy.viewmodels
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import app.akexorcist.bluetotohspp.library.BluetoothSPP
 import app.akexorcist.bluetotohspp.library.BluetoothState
 import com.tibi.geodesy.database.*
@@ -24,6 +26,18 @@ class SurveyViewModel(
 
     val pointObjectCoordinates = database.getAllPointObjectCoordinates()
     val linearObjectCoordinates = database.getAllLinearObjectCoordinates()
+
+    private var _selectedObject = MutableLiveData<Any?>()
+    val selectedObject: LiveData<Any?>
+        get() = _selectedObject
+
+    fun unSelectObject() {
+        _selectedObject.value = null
+    }
+
+    fun onSelectObject(selected: Any?) {
+        _selectedObject.value = selected
+    }
 
     fun addQuickStation() {
         uiScope.launch { withContext(Dispatchers.IO) {

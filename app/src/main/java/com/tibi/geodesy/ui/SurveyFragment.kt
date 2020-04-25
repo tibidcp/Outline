@@ -16,6 +16,8 @@ import app.akexorcist.bluetotohspp.library.BluetoothSPP
 import app.akexorcist.bluetotohspp.library.BluetoothState
 import app.akexorcist.bluetotohspp.library.DeviceList
 import com.tibi.geodesy.R
+import com.tibi.geodesy.database.LinearObjectCoordinate
+import com.tibi.geodesy.database.PointObjectCoordinate
 import com.tibi.geodesy.database.getDatabase
 import com.tibi.geodesy.databinding.FragmentSurveyBinding
 import com.tibi.geodesy.viewModelFactories.SurveyViewModelFactory
@@ -27,6 +29,8 @@ class SurveyFragment : Fragment(),
 
     private lateinit var mDetector: GestureDetectorCompat
     private lateinit var binding: FragmentSurveyBinding
+
+    private lateinit var surveyViewModel: SurveyViewModel
 
     private lateinit var bt: BluetoothSPP
 
@@ -47,7 +51,7 @@ class SurveyFragment : Fragment(),
                 dataSource,
                 application
             )
-        val surveyViewModel =
+        surveyViewModel =
             ViewModelProvider(this, viewModelFactory)
                 .get(SurveyViewModel::class.java)
         binding.lifecycleOwner = this
@@ -55,11 +59,23 @@ class SurveyFragment : Fragment(),
         surveyViewModel.addQuickStation()
 
         surveyViewModel.pointObjectCoordinates.observe(viewLifecycleOwner, Observer {
-            it?.let { binding.myCanvasView.updatePoints(it) }
+            it?.let {
+                binding.myCanvasView.updatePoints(it)
+            }
         })
 
         surveyViewModel.linearObjectCoordinates.observe(viewLifecycleOwner, Observer {
-            it?.let { binding.myCanvasView.updateLines(it) }
+            it?.let {
+                binding.myCanvasView.updateLines(it)
+            }
+        })
+
+        surveyViewModel.selectedObject.observe(viewLifecycleOwner, Observer { selected ->
+            binding.myCanvasView.unHighlightAll()
+            when (selected) {
+                is PointObjectCoordinate -> binding.myCanvasView.highlightPoint(selected)
+                is LinearObjectCoordinate -> binding.myCanvasView.highlightLine(selected)
+            }
         })
 
         binding.zoomInButton.setOnClickListener {
@@ -179,7 +195,7 @@ class SurveyFragment : Fragment(),
     }
 
     override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
-        binding.myCanvasView.select()
+        surveyViewModel.onSelectObject(binding.myCanvasView.select())
         //Log.d(DEBUG_TAG, "onSingleTapConfirmed: $event")
         return true
     }
